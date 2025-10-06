@@ -5,14 +5,12 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write   # 👈 important for gh-pages deploy
+
 jobs:
   cd:
-    name: Build and deploy
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node: [20]
 
     steps:
       - name: Checkout
@@ -23,10 +21,10 @@ jobs:
         with:
           version: 9.2.0
 
-      - name: Setup Node.js ${{ matrix.node }}
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -41,4 +39,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./dist   # 👈 make sure this matches your actual build output
