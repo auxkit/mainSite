@@ -30,7 +30,8 @@ jobs:
 
       - name: Build
         env:
-          VITE_BASE_PUBLIC_PATH: ${{ secrets.VITE_BASE_PUBLIC_PATH || '/mainSite/' }}
+          # Pages serves this repo at the root of the custom domain auxkit.dev.
+          VITE_BASE_PUBLIC_PATH: ${{ secrets.VITE_BASE_PUBLIC_PATH || '/' }}
         run: bun run build
 
       - name: SPA fallback
@@ -41,3 +42,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./auxkit/dist
+          cname: auxkit.dev
