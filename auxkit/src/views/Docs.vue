@@ -63,57 +63,68 @@
             <div class="docs-card">
               <h2>Getting Started</h2>
               <p>
-                Welcome to AuxKit! This guide will help you get up and running in minutes.
+                A seller quickstart: from account to a working storefront on your own site.
               </p>
 
+              <ol class="quickstart-steps">
+                <li>
+                  <span class="step-num">1</span>
+                  <div>
+                    <span class="step-title">Create your account</span>
+                    <span class="step-desc">Sign up for the seller dashboard.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="step-num">2</span>
+                  <div>
+                    <span class="step-title">Connect Stripe</span>
+                    <span class="step-desc">Complete Stripe Connect onboarding from the dashboard — required before you can sell.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="step-num">3</span>
+                  <div>
+                    <span class="step-title">Create a pack and upload samples</span>
+                    <span class="step-desc">Add artwork, BPM and key metadata per sample. Previews are generated automatically.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="step-num">4</span>
+                  <div>
+                    <span class="step-title">Publish</span>
+                    <span class="step-desc">The download bundle builds automatically once you publish.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="step-num">5</span>
+                  <div>
+                    <span class="step-title">Create an API key</span>
+                    <span class="step-desc">Shown once — keys are <code>ak_</code>-prefixed, domain-restricted, and expire after 1 year.</span>
+                  </div>
+                </li>
+                <li>
+                  <span class="step-num">6</span>
+                  <div>
+                    <span class="step-title">Embed the widget</span>
+                    <span class="step-desc">Drop this script tag into any page that accepts one.</span>
+                  </div>
+                </li>
+              </ol>
+
               <div class="code-block">
                 <div class="code-header">
-                  <span>Install AuxKit CLI</span>
+                  <span>Embed the widget</span>
                   <button class="copy-btn">
                     <Copy :size="16" />
                   </button>
                 </div>
-                <pre><code>npm install -g @auxkit/cli</code></pre>
-              </div>
-
-              <div class="code-block">
-                <div class="code-header">
-                  <span>Initialize your project</span>
-                  <button class="copy-btn">
-                    <Copy :size="16" />
-                  </button>
-                </div>
-                <pre><code>auxkit init my-project
-cd my-project
-auxkit dev</code></pre>
-              </div>
-
-              <h3>Next Steps</h3>
-              <div class="next-steps">
-                <a href="#" class="next-step">
-                  <FileText :size="20" />
-                  <div>
-                    <span class="step-title">Read the Concepts Guide</span>
-                    <span class="step-desc">Understand AuxKit's core architecture</span>
-                  </div>
-                  <ArrowRight :size="16" />
-                </a>
-                <a href="#" class="next-step">
-                  <Code :size="20" />
-                  <div>
-                    <span class="step-title">Explore the API</span>
-                    <span class="step-desc">Full reference for all endpoints</span>
-                  </div>
-                  <ArrowRight :size="16" />
-                </a>
-                <a href="#" class="next-step">
-                  <Puzzle :size="20" />
-                  <div>
-                    <span class="step-title">Build Your First Workflow</span>
-                    <span class="step-desc">Hands-on tutorial to get started</span>
-                  </div>
-                  <ArrowRight :size="16" />
-                </a>
+                <pre><code>&lt;div id="auxkit-packs"&gt;&lt;/div&gt;
+&lt;script
+  src="https://embed.auxkit.dev/auxkit-embed.js"
+  data-api-key="ak_YOUR_KEY"
+  data-target="#auxkit-packs"
+  async
+&gt;&lt;/script&gt;</code></pre>
               </div>
             </div>
           </div>
@@ -142,26 +153,28 @@ auxkit dev</code></pre>
             <h3>Public API</h3>
             <p>
               The <code>GET</code> endpoints below are read-only and safe to call from a
-              browser or a build step with your API key. Purchases go through a separate
-              checkout endpoint that's state-changing—it starts a Stripe Checkout session,
-              so it should be triggered on a buyer's click rather than prefetched or cached.
+              browser or a build step with your API key. Checkout, resend, and extension
+              requests are state-changing—triggered on a buyer's click rather than
+              prefetched or cached.
             </p>
             <ul class="endpoint-list">
               <li><code>GET /public/packs</code><span>List published packs</span></li>
               <li><code>GET /public/packs/{id}</code><span>Pack detail, with samples</span></li>
-              <li><code>GET /public/sites/{siteId}/songs</code><span>Portfolio song feed for a site</span></li>
-              <li><code>GET /public/sites/{siteId}/songs/{id}</code><span>Single song detail</span></li>
+              <li><code>POST /public/packs/{id}/checkout</code><span>Start a Stripe Checkout session</span></li>
+              <li><code>GET /download?token=</code><span>Redirect to a presigned download</span></li>
+              <li><code>POST /public/purchases/resend</code><span>Resend a buyer's download link</span></li>
+              <li><code>POST /public/purchases/request-extension</code><span>Request +5 downloads / +7 days</span></li>
             </ul>
             <p class="endpoint-note">
-              A checkout endpoint starts the Stripe Checkout session for a pack purchase—the
-              embed widget below calls it for you, so you don't need to wire it up by hand.
+              The embed widget below calls the checkout endpoint for you, so you don't
+              need to wire it up by hand.
             </p>
 
             <h3>Buyer self-service</h3>
             <p>
               Once a purchase is made, buyers don't need to contact support to get their files.
               They can resend their download link or request an extension straight from the
-              link they were emailed.
+              link they were emailed—both are rate-limited to 5 per hour per email and pack.
             </p>
 
             <h3>Embed widget</h3>
@@ -176,18 +189,18 @@ auxkit dev</code></pre>
       </div>
     </section>
 
-    <!-- API Status -->
+    <!-- API at a glance -->
     <section class="api-status section">
       <div class="container">
-        <div class="status-bar">
-          <div class="status-indicator">
-            <div class="status-dot"></div>
-            <span>All systems operational</span>
-          </div>
-          <a href="#" class="status-link">
-            View status page
-            <ExternalLink :size="14" />
-          </a>
+        <div class="glance-bar">
+          <span class="glance-label">API at a glance</span>
+          <ul class="glance-facts">
+            <li>Auth: Bearer <code>ak_</code> keys</li>
+            <li>Rate limit: 60 req/min</li>
+            <li>Resend/extension: 5 per hour per email+pack</li>
+            <li>Key expiry: 1 year</li>
+            <li>Downloads: 5 per purchase, 7-day window</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -196,8 +209,7 @@ auxkit dev</code></pre>
 
 <script setup>
 import {
-  Search, ArrowRight, BookOpen, Code, Plug2, FileText,
-  Copy, Puzzle, ExternalLink, Rocket, Zap
+  Search, ArrowRight, Code, Copy, Rocket, Zap, Download
 } from 'lucide-vue-next'
 import SectionLabel from '../components/SectionLabel.vue'
 import EmbedCodeSnippet from '../components/EmbedCodeSnippet.vue'
@@ -216,15 +228,15 @@ const quickLinks = [
     color: 'rgba(34, 197, 94, 0.15)'
   },
   {
-    icon: Plug2,
-    title: 'Integrations',
-    description: 'Connect AuxKit to your favorite tools and services.',
-    color: 'rgba(245, 158, 11, 0.15)'
-  },
-  {
     icon: Zap,
     title: 'Embed Widget',
     description: 'Drop-in storefront widget for sample-pack commerce on any site.',
+    color: 'rgba(245, 158, 11, 0.15)'
+  },
+  {
+    icon: Download,
+    title: 'Buyer Delivery',
+    description: 'Tokenized download links, resends, and extension requests.',
     color: 'rgba(236, 72, 153, 0.15)'
   }
 ]
@@ -232,7 +244,7 @@ const quickLinks = [
 const docSections = [
   {
     title: 'Getting Started',
-    items: ['Introduction', 'Quick Start', 'Core Concepts', 'Installation']
+    items: ['Introduction', 'Quick Start']
   },
   {
     title: 'Product',
@@ -240,15 +252,11 @@ const docSections = [
   },
   {
     title: 'API Reference',
-    items: ['Authentication', 'API Keys', 'Public Sites & Songs', 'Public Packs', 'Embed Widget']
+    items: ['Public Packs API', 'Embed Widget', 'API Keys']
   },
   {
-    title: 'Sample Pack Commerce',
-    items: ['Packs & Samples', 'Previews', 'Checkout', 'Downloads', 'Buyer Self-Service']
-  },
-  {
-    title: 'Guides',
-    items: ['Embedding the Widget', 'Setting Up Payouts', 'Publishing a Pack', 'Best Practices']
+    title: 'Buyer Delivery',
+    items: ['Downloads', 'Resend', 'Extensions']
   }
 ]
 </script>
@@ -503,36 +511,50 @@ const docSections = [
   color: var(--color-text-primary);
 }
 
-/* Next Steps */
-.next-steps {
+/* Quickstart Steps */
+.quickstart-steps {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+  list-style: none;
 }
 
-.next-step {
+.quickstart-steps li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-md);
   padding: var(--space-lg);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  transition: all var(--transition-fast);
 }
 
-.next-step:hover {
-  border-color: var(--color-accent);
-  background: var(--color-bg-hover);
-}
-
-.next-step svg:first-child {
-  color: var(--color-accent);
+.step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
   flex-shrink: 0;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-full);
 }
 
-.next-step > div {
+.quickstart-steps > li > div {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.quickstart-steps .step-desc code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--accent-hover);
 }
 
 .step-title {
@@ -647,46 +669,45 @@ const docSections = [
   }
 }
 
-/* API Status */
+/* API at a glance */
 .api-status {
   background: var(--color-bg);
   padding: var(--space-xl) 0;
 }
 
-.status-bar {
+.glance-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  padding: var(--space-md) var(--space-lg);
+  gap: var(--space-md) var(--space-xl);
+  padding: var(--space-lg);
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 }
 
-.status-indicator {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--color-success);
-  border-radius: var(--radius-full);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.status-link {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  font-size: 0.875rem;
+.glance-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--color-text-muted);
+  flex-shrink: 0;
 }
 
-.status-link:hover {
-  color: var(--color-text-primary);
+.glance-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-xl);
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.glance-facts code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--accent-hover);
 }
 
 @media (max-width: 1024px) {
