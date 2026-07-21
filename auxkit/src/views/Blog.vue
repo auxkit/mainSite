@@ -6,7 +6,7 @@
         <span class="badge mb-lg" v-motion-fade-visible>Blog</span>
         <h1 v-motion-slide-visible-bottom>Insights & Updates</h1>
         <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
-          Thoughts on workflow optimization, modular systems, and building better tools.
+          Notes on selling sample packs direct, pricing, delivery, and the embed widget.
         </p>
       </div>
     </section>
@@ -23,11 +23,12 @@
           <div class="featured-content">
             <div class="post-meta">
               <span class="post-category">Product</span>
-              <span class="post-date">December 10, 2024</span>
+              <span class="post-date">June 3, 2026</span>
+              <span class="post-author">AuxKit Team</span>
             </div>
-            <h2>Introducing AuxKit 2.0: The Future of Modular Workflows</h2>
+            <h2>Introducing the AuxKit Embed Widget</h2>
             <p>
-              Today we're excited to announce AuxKit 2.0, our biggest release yet. With a completely redesigned workflow engine, new automation capabilities, and 20+ new integrations, we're making it easier than ever to build the perfect toolkit for your team.
+              Your storefront, on any site, with one script tag. The AuxKit embed widget renders a pack grid or a single pack detail view—complete with audio previews and Stripe checkout—wherever you drop it in. No SDK, no build step, no integrations to configure.
             </p>
             <a href="#" class="btn btn-secondary">
               Read More
@@ -72,6 +73,7 @@
               <div class="post-meta">
                 <span class="post-category">{{ post.category }}</span>
                 <span class="post-date">{{ post.date }}</span>
+                <span class="post-author">AuxKit Team</span>
               </div>
               <h3>{{ post.title }}</h3>
               <p>{{ post.excerpt }}</p>
@@ -113,57 +115,57 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { 
-  Sparkles, ArrowRight, Lightbulb, Workflow, Puzzle, 
-  BarChart3, Users, Zap 
+import {
+  Sparkles, ArrowRight, Tag, Disc3, Wallet,
+  ShieldCheck, Users, Layout
 } from 'lucide-vue-next'
 
 const activeCategory = ref('All')
 
-const categories = ['All', 'Product', 'Engineering', 'Guides', 'Company']
+const categories = ['All', 'Product', 'Guides', 'Commerce', 'Engineering']
 
 const posts = [
   {
-    title: 'How We Designed AuxKit\'s Module System',
-    excerpt: 'A deep dive into the architectural decisions behind our modular approach.',
+    title: 'How to price a sample pack',
+    excerpt: 'Thinking through pack size, license, and what your audience actually pays for.',
+    category: 'Guides',
+    date: 'May 27, 2026',
+    icon: Tag
+  },
+  {
+    title: 'BPM, key, and metadata that sells',
+    excerpt: 'Preparing samples so buyers can hear and find what they need before they buy.',
+    category: 'Guides',
+    date: 'May 20, 2026',
+    icon: Disc3
+  },
+  {
+    title: 'Understanding your payout: the €20 example',
+    excerpt: 'Where each cent of a sale goes with Stripe Connect direct charges.',
+    category: 'Commerce',
+    date: 'May 13, 2026',
+    icon: Wallet
+  },
+  {
+    title: 'How secure delivery works',
+    excerpt: 'Tokenized links, download limits, resends, and extensions.',
     category: 'Engineering',
-    date: 'December 8, 2024',
-    icon: Puzzle
+    date: 'May 6, 2026',
+    icon: ShieldCheck
   },
   {
-    title: '5 Workflow Patterns Every Ops Team Should Know',
-    excerpt: 'Common patterns that help operations teams scale without adding headcount.',
-    category: 'Guides',
-    date: 'December 5, 2024',
-    icon: Workflow
-  },
-  {
-    title: 'Building Automations That Actually Work',
-    excerpt: 'Why most automation fails and how to design systems that stand the test of time.',
-    category: 'Guides',
-    date: 'December 2, 2024',
-    icon: Zap
-  },
-  {
-    title: 'AuxKit\'s Approach to Team Collaboration',
-    excerpt: 'How we think about multi-user workflows and permissions.',
-    category: 'Product',
-    date: 'November 28, 2024',
+    title: 'Leaving the marketplace: owning your audience',
+    excerpt: 'Why direct-to-fan sales beat renting an algorithm.',
+    category: 'Commerce',
+    date: 'April 29, 2026',
     icon: Users
   },
   {
-    title: 'Measuring What Matters: KPIs for Modern Teams',
-    excerpt: 'A framework for choosing metrics that drive real outcomes.',
+    title: 'A portfolio site for your music in an afternoon',
+    excerpt: 'Song feeds, pack catalogue, and the free tier.',
     category: 'Guides',
-    date: 'November 25, 2024',
-    icon: BarChart3
-  },
-  {
-    title: 'Why We\'re Building AuxKit as a Remote-First Company',
-    excerpt: 'Our philosophy on distributed work and how it shapes our product.',
-    category: 'Company',
-    date: 'November 20, 2024',
-    icon: Lightbulb
+    date: 'April 22, 2026',
+    icon: Layout
   }
 ]
 
@@ -248,7 +250,8 @@ const filteredPosts = computed(() => {
   border-radius: var(--radius-sm);
 }
 
-.post-date {
+.post-date,
+.post-author {
   font-size: 0.875rem;
   color: var(--color-text-muted);
 }
