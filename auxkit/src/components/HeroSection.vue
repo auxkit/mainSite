@@ -21,52 +21,47 @@
     
     <div class="container hero-content">
       <!-- Announcement Banner -->
-      <a href="#" class="announcement-banner" v-motion-fade-visible>
+      <a href="#developer-api" class="announcement-banner" v-motion-fade-visible>
         <span class="announcement-badge">New</span>
-        <span class="announcement-text">AuxKit 2.0 is here — Faster workflows, smarter automations</span>
+        <span class="announcement-text">Embed widget — sell packs on any website</span>
         <ArrowRight :size="16" />
       </a>
 
       <h1 class="hero-title" v-motion-slide-visible-bottom>
-        <span class="title-line">AuxKit powers your workflow.</span>
-        <span class="title-line gradient-animated">
-          <span class="typing-container">
-            <span class="typing-text">{{ currentWord }}</span>
-            <span class="cursor"></span>
-          </span>
-        </span>
+        <span class="title-line">Sell your sample packs</span>
+        <span class="title-line gradient-animated">from your own website.</span>
       </h1>
-      
+
       <p class="hero-description" v-motion-slide-visible-bottom :delay="100">
-        A modular suite of tools that helps teams move faster, collaborate cleaner, 
-        and scale without chaos. Join <span class="highlight">2,500+ teams</span> already shipping better.
+        AuxKit gives independent musicians a hosted portfolio site, song feeds, and a
+        direct-to-fan sample pack storefront — Stripe checkout, secure delivery, and an
+        embed widget that drops into any page with <span class="highlight">one script tag</span>.
       </p>
-      
+
       <div class="hero-actions" v-motion-slide-visible-bottom :delay="200">
         <router-link to="/pricing" class="btn btn-primary btn-lg">
-          <span>Get Started Free</span>
+          <span>Start selling free</span>
           <ArrowRight :size="18" />
         </router-link>
-        <button class="btn btn-secondary btn-lg" @click="showDemo = true">
-          <Play :size="18" />
-          <span>Watch Demo</span>
-          <span class="demo-duration">2 min</span>
-        </button>
+        <a href="#how-it-works" class="btn btn-secondary btn-lg">
+          <ArrowDown :size="18" />
+          <span>See how it works</span>
+        </a>
       </div>
 
       <!-- Trust Indicators -->
       <div class="trust-indicators" v-motion-fade-visible :delay="300">
         <div class="trust-item">
           <Check :size="16" />
-          <span>Free forever plan</span>
+          <span>No credit card required to start</span>
         </div>
         <div class="trust-item">
           <Check :size="16" />
-          <span>No credit card required</span>
+          <span>Free portfolio + 3 GB storage</span>
         </div>
         <div class="trust-item">
           <Check :size="16" />
-          <span>Setup in 5 minutes</span>
+          <span>Keep ~90% of every sale</span>
         </div>
       </div>
 
@@ -140,12 +135,12 @@
         </div>
       </div>
 
-      <!-- Company Logos -->
+      <!-- Embed Anywhere Strip -->
       <div class="hero-logos" v-motion-fade-visible :delay="500">
-        <span class="logos-label">Trusted by innovative teams</span>
+        <span class="logos-label">The embed widget works anywhere you can paste a script tag</span>
         <div class="logos-grid">
-          <div v-for="company in companies" :key="company" class="logo-item">
-            <span>{{ company }}</span>
+          <div v-for="platform in platforms" :key="platform" class="logo-item">
+            <span>{{ platform }}</span>
           </div>
         </div>
       </div>
@@ -158,52 +153,27 @@
       </div>
       <span>Scroll to explore</span>
     </div>
-
-    <!-- Video Modal -->
-    <Teleport to="body">
-      <Transition name="modal">
-        <div v-if="showDemo" class="video-modal" @click.self="showDemo = false">
-          <div class="modal-content">
-            <button class="modal-close" @click="showDemo = false">
-              <X :size="24" />
-            </button>
-            <div class="video-container">
-              <div class="video-placeholder">
-                <Play :size="64" />
-                <span>Product Demo Video</span>
-                <p>See AuxKit in action — 2 minute overview</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Transition>
-    </Teleport>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { 
-  ArrowRight, Play, Check, X,
-  Workflow, Database, ListTodo, Plug2, BarChart3, Zap
+import { ref } from 'vue'
+import {
+  ArrowRight, ArrowDown, Check,
+  Music, AudioLines, Globe, Rss, Code, CreditCard
 } from 'lucide-vue-next'
 
-const showDemo = ref(false)
 const activeModule = ref(null)
-const currentWordIndex = ref(0)
 
-const words = ['No noise, no friction.', 'Built for speed.', 'Modular by design.', 'Scale with confidence.']
-const currentWord = ref(words[0])
-
-const companies = ['Stripe', 'Notion', 'Linear', 'Vercel', 'Figma', 'Raycast']
+const platforms = ['GitHub Pages', 'Static sites', 'WordPress', 'Site builders', 'Your custom site']
 
 const modules = [
-  { name: 'Workflows', icon: Workflow },
-  { name: 'Data', icon: Database },
-  { name: 'Tasks', icon: ListTodo },
-  { name: 'Integrations', icon: Plug2 },
-  { name: 'Analytics', icon: BarChart3 },
-  { name: 'Automations', icon: Zap }
+  { name: 'Packs', icon: Music },
+  { name: 'Samples', icon: AudioLines },
+  { name: 'Portfolio Site', icon: Globe },
+  { name: 'Song Feeds', icon: Rss },
+  { name: 'Embed Widget', icon: Code },
+  { name: 'Payouts', icon: CreditCard }
 ]
 
 const getOrbitPosition = (index, total, radius) => {
@@ -225,17 +195,6 @@ const getShapeStyle = (n) => {
   }
 }
 
-let wordInterval
-onMounted(() => {
-  wordInterval = setInterval(() => {
-    currentWordIndex.value = (currentWordIndex.value + 1) % words.length
-    currentWord.value = words[currentWordIndex.value]
-  }, 3000)
-})
-
-onUnmounted(() => {
-  clearInterval(wordInterval)
-})
 </script>
 
 <style scoped>
@@ -427,25 +386,6 @@ onUnmounted(() => {
   100% { background-position: 200% center; }
 }
 
-.typing-container {
-  display: inline-flex;
-  align-items: center;
-}
-
-.cursor {
-  display: inline-block;
-  width: 3px;
-  height: 0.9em;
-  background: var(--color-accent);
-  margin-left: 4px;
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
 /* Description */
 .hero-description {
   max-width: 600px;
@@ -470,15 +410,6 @@ onUnmounted(() => {
 .btn-lg {
   padding: var(--space-lg) var(--space-2xl);
   font-size: 1.0625rem;
-}
-
-.demo-duration {
-  margin-left: var(--space-sm);
-  padding: 2px var(--space-sm);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  opacity: 0.7;
 }
 
 /* Trust */
@@ -753,85 +684,6 @@ onUnmounted(() => {
 @keyframes scroll-bounce {
   0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
   50% { transform: translateX(-50%) translateY(8px); opacity: 0.3; }
-}
-
-/* Modal */
-.video-modal {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 1000;
-  padding: var(--space-xl);
-}
-
-.modal-content {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-}
-
-.modal-close {
-  position: absolute;
-  top: calc(var(--space-2xl) * -1);
-  right: 0;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: var(--space-sm);
-  transition: transform var(--transition-fast);
-}
-
-.modal-close:hover {
-  transform: scale(1.1);
-}
-
-.video-container {
-  aspect-ratio: 16/9;
-  background: var(--color-bg-card);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-
-.video-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-md);
-  color: var(--color-accent);
-}
-
-.video-placeholder span {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.video-placeholder p {
-  font-size: 0.9375rem;
-  color: var(--color-text-muted);
-}
-
-/* Transitions */
-.modal-enter-active,
-.modal-leave-active {
-  transition: all 0.3s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-enter-from .modal-content,
-.modal-leave-to .modal-content {
-  transform: scale(0.95);
 }
 
 /* Responsive */
