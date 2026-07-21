@@ -212,6 +212,9 @@ const getShapeStyle = (n) => {
   flex-direction: column;
   align-items: center;
   padding-top: 72px;
+  /* reserve room for the absolutely-positioned scroll indicator so
+     in-flow content (the embed-anywhere strip) never collides with it */
+  padding-bottom: calc(var(--space-2xl) + 96px);
   overflow: hidden;
 }
 
