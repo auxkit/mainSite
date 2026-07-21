@@ -6,25 +6,8 @@
         <span class="badge mb-lg" v-motion-fade-visible>Pricing</span>
         <h1 v-motion-slide-visible-bottom>Simple, transparent pricing</h1>
         <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
-          Pay for what you use. No hidden fees, no surprises. Start free and scale as you grow.
+          No subscription. Free forever for your portfolio — a flat 10% only when a pack sells.
         </p>
-
-        <!-- Billing Toggle -->
-        <div class="billing-toggle" v-motion-fade-visible :delay="200">
-          <button 
-            :class="{ active: billingCycle === 'monthly' }"
-            @click="billingCycle = 'monthly'"
-          >
-            Monthly
-          </button>
-          <button 
-            :class="{ active: billingCycle === 'annual' }"
-            @click="billingCycle = 'annual'"
-          >
-            Annual
-            <span class="save-badge">Save 20%</span>
-          </button>
-        </div>
       </div>
     </section>
 
@@ -32,8 +15,8 @@
     <section class="pricing-cards section">
       <div class="container">
         <div class="pricing-grid">
-          <div 
-            v-for="(plan, index) in plans" 
+          <div
+            v-for="(plan, index) in plans"
             :key="plan.name"
             class="pricing-card"
             :class="{ featured: plan.featured }"
@@ -41,23 +24,19 @@
             :delay="index * 100"
           >
             <div v-if="plan.featured" class="featured-badge">Most Popular</div>
-            
+
             <div class="plan-header">
               <h3>{{ plan.name }}</h3>
               <p>{{ plan.description }}</p>
             </div>
 
             <div class="plan-price">
-              <span class="price-amount">
-                {{ plan.price === 'Custom' ? plan.price : `$${getPrice(plan.price)}` }}
-              </span>
-              <span v-if="plan.price !== 'Custom'" class="price-period">
-                /{{ billingCycle === 'annual' ? 'year' : 'month' }}
-              </span>
+              <span class="price-amount">{{ plan.price }}</span>
+              <span v-if="plan.pricePeriod" class="price-period">{{ plan.pricePeriod }}</span>
             </div>
 
-            <a 
-              :href="plan.cta.href" 
+            <a
+              :href="plan.cta.href"
               class="btn"
               :class="plan.featured ? 'btn-primary' : 'btn-secondary'"
             >
@@ -83,39 +62,35 @@
           <p>See exactly what's included in each plan.</p>
         </div>
 
-        <div class="comparison-table">
-          <div class="comparison-header">
-            <div class="feature-name"></div>
-            <div v-for="plan in plans" :key="plan.name" class="plan-name">
-              {{ plan.name }}
+        <div class="comparison-table-wrap">
+          <div class="comparison-table">
+            <div class="comparison-header">
+              <div class="feature-name"></div>
+              <div v-for="plan in plans" :key="plan.name" class="plan-name">
+                {{ plan.name }}
+              </div>
             </div>
-          </div>
 
-          <div 
-            v-for="category in featureComparison" 
-            :key="category.category"
-            class="comparison-category"
-          >
-            <div class="category-header">{{ category.category }}</div>
-            <div 
-              v-for="feature in category.features" 
-              :key="feature.name"
+            <div
+              v-for="row in featureComparison"
+              :key="row.name"
               class="comparison-row"
             >
-              <div class="feature-name">
-                {{ feature.name }}
-                <span v-if="feature.tooltip" class="feature-tooltip">
-                  <Info :size="14" />
-                </span>
+              <div class="feature-name">{{ row.name }}</div>
+              <div class="feature-value">
+                <Check v-if="row.free === true" :size="18" class="check" />
+                <span v-else-if="row.free === false" class="dash">—</span>
+                <span v-else>{{ row.free }}</span>
               </div>
-              <div 
-                v-for="plan in plans" 
-                :key="plan.name"
-                class="feature-value"
-              >
-                <Check v-if="feature[plan.name.toLowerCase()] === true" :size="18" class="check" />
-                <X v-else-if="feature[plan.name.toLowerCase()] === false" :size="18" class="cross" />
-                <span v-else>{{ feature[plan.name.toLowerCase()] }}</span>
+              <div class="feature-value">
+                <Check v-if="row.seller === true" :size="18" class="check" />
+                <span v-else-if="row.seller === false" class="dash">—</span>
+                <span v-else>{{ row.seller }}</span>
+              </div>
+              <div class="feature-value">
+                <Check v-if="row.custom === true" :size="18" class="check" />
+                <span v-else-if="row.custom === false" class="dash">—</span>
+                <span v-else>{{ row.custom }}</span>
               </div>
             </div>
           </div>
@@ -129,26 +104,20 @@
         <div class="philosophy-content" v-motion-fade-visible>
           <h2>Why we price this way</h2>
           <p>
-            We believe great tools should be accessible. That's why AuxKit starts free—with no arbitrary limits designed to push you to paid plans.
-          </p>
-          <p>
-            Our Pro tier is built for teams that need more power, and Enterprise is for organizations with specific security, compliance, and scale requirements.
-          </p>
-          <p>
-            No per-seat pricing games. No "contact us" walls hiding basic information. Just honest pricing for honest software.
+            We only make money when you do. No seats, no tiers, no subscription — a flat 10% when a pack sells, and Stripe's processing fee. On a €20 pack you keep about €17.45.
           </p>
           <div class="philosophy-values">
             <div class="value-item">
               <Heart :size="24" />
-              <span>Free tier that actually works</span>
+              <span>Free portfolio, forever</span>
             </div>
             <div class="value-item">
               <Shield :size="24" />
-              <span>No surprise charges</span>
+              <span>You're the merchant of record</span>
             </div>
             <div class="value-item">
               <Zap :size="24" />
-              <span>Upgrade when ready</span>
+              <span>Pay only when you sell</span>
             </div>
           </div>
         </div>
@@ -163,8 +132,8 @@
         </div>
 
         <div class="faq-list">
-          <div 
-            v-for="(faq, index) in faqs" 
+          <div
+            v-for="(faq, index) in faqs"
             :key="index"
             class="faq-item"
             :class="{ open: openFaq === index }"
@@ -188,132 +157,95 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { Check, X, Info, Heart, Shield, Zap, ChevronDown } from 'lucide-vue-next'
+import { ref } from 'vue'
+import { Check, Heart, Shield, Zap, ChevronDown } from 'lucide-vue-next'
 import CTASection from '../components/CTASection.vue'
 
-const billingCycle = ref('monthly')
 const openFaq = ref(null)
 
 const plans = [
   {
     name: 'Free',
-    description: 'For individuals and small teams getting started.',
-    price: 0,
+    description: 'A hosted home for your music, no strings attached.',
+    price: '€0',
+    pricePeriod: 'forever',
     featured: false,
-    cta: { text: 'Get Started', href: '#' },
+    cta: { text: 'Create free account', href: '#' },
     features: [
-      'Core module usage',
-      'Up to 3 team members',
-      '1,000 workflow runs/month',
-      '5 integrations',
-      'Community support',
-      '7-day data retention'
+      'Portfolio site',
+      'Song feeds',
+      '3 GB storage',
+      'No credit card required'
     ]
   },
   {
-    name: 'Pro',
-    description: 'For growing teams that need more power.',
-    price: 29,
+    name: 'Seller',
+    description: 'Turn on commerce when you\'re ready to sell.',
+    price: '€0',
+    pricePeriod: '+ 10% per sale',
     featured: true,
-    cta: { text: 'Start Free Trial', href: '#' },
+    cta: { text: 'Connect Stripe & start selling', href: '#' },
     features: [
-      'All modules included',
-      'Unlimited team members',
-      'Unlimited workflow runs',
-      'Unlimited integrations',
-      'Priority support',
-      '1-year data retention',
-      'Advanced automations',
-      'Custom reporting'
+      'Everything in Free',
+      'Sell sample packs',
+      '20 GB storage',
+      '5 GB per pack',
+      'Stripe Connect payouts',
+      'Embed widget + API keys',
+      'Secure buyer delivery'
     ]
   },
   {
-    name: 'Enterprise',
-    description: 'For organizations with advanced requirements.',
+    name: 'Custom',
+    description: 'Need more room?',
     price: 'Custom',
+    pricePeriod: '',
     featured: false,
-    cta: { text: 'Contact Sales', href: '#' },
+    cta: { text: 'Get in touch', href: '#' },
     features: [
-      'Everything in Pro',
-      'Custom modules',
-      'On-premise deployment',
-      'Dedicated support',
-      'SSO / SAML',
-      'Unlimited data retention',
-      'Security reviews',
-      'Custom SLAs'
+      'Everything in Seller',
+      'Higher storage quotas on request',
+      'Same 10% flat fee'
     ]
   }
 ]
 
-const getPrice = (price) => {
-  if (price === 0) return '0'
-  if (billingCycle.value === 'annual') {
-    return Math.round(price * 12 * 0.8)
-  }
-  return price
-}
-
 const featureComparison = [
-  {
-    category: 'Core Features',
-    features: [
-      { name: 'Workflow Engine', free: true, pro: true, enterprise: true },
-      { name: 'Task Manager', free: true, pro: true, enterprise: true },
-      { name: 'Data Layer', free: 'Basic', pro: 'Advanced', enterprise: 'Custom' },
-      { name: 'Automations', free: '5/month', pro: 'Unlimited', enterprise: 'Unlimited' }
-    ]
-  },
-  {
-    category: 'Team & Collaboration',
-    features: [
-      { name: 'Team members', free: 'Up to 3', pro: 'Unlimited', enterprise: 'Unlimited' },
-      { name: 'Guest access', free: false, pro: true, enterprise: true },
-      { name: 'Role-based permissions', free: false, pro: true, enterprise: true },
-      { name: 'Audit logs', free: false, pro: '90 days', enterprise: 'Unlimited' }
-    ]
-  },
-  {
-    category: 'Integrations',
-    features: [
-      { name: 'Native integrations', free: '5', pro: 'Unlimited', enterprise: 'Unlimited' },
-      { name: 'API access', free: 'Read-only', pro: 'Full', enterprise: 'Full + Custom' },
-      { name: 'Webhooks', free: false, pro: true, enterprise: true },
-      { name: 'Custom connectors', free: false, pro: false, enterprise: true }
-    ]
-  },
-  {
-    category: 'Support & Security',
-    features: [
-      { name: 'Support', free: 'Community', pro: 'Priority', enterprise: 'Dedicated' },
-      { name: 'SSO / SAML', free: false, pro: false, enterprise: true },
-      { name: 'On-premise', free: false, pro: false, enterprise: true },
-      { name: 'SLA', free: false, pro: '99.9%', enterprise: 'Custom' }
-    ]
-  }
+  { name: 'Portfolio site + song feeds', free: true, seller: true, custom: true },
+  { name: 'Storage', free: '3 GB', seller: '20 GB', custom: 'By request' },
+  { name: 'Sell sample packs', free: false, seller: true, custom: true },
+  { name: 'Max pack size', free: false, seller: '5 GB', custom: '5 GB' },
+  { name: 'Platform fee', free: false, seller: '10% per sale', custom: '10% per sale' },
+  { name: 'Embed widget + API keys', free: false, seller: true, custom: true },
+  { name: 'Download delivery (5 uses, 7 days)', free: false, seller: true, custom: true },
+  { name: 'Extension grants (+5 / +7 days)', free: false, seller: true, custom: true },
+  { name: 'Payouts', free: false, seller: 'Direct to your Stripe account', custom: 'Direct to your Stripe account' }
 ]
 
 const faqs = [
   {
-    question: 'Can I switch plans at any time?',
-    answer: 'Yes! You can upgrade or downgrade your plan at any time. When upgrading, you\'ll get immediate access to new features. When downgrading, the change takes effect at your next billing cycle.'
+    question: 'How do payouts work?',
+    answer: "Payments run on Stripe Connect direct charges — you're the merchant of record. Funds settle directly in your own Stripe account on Stripe's normal payout schedule."
   },
   {
-    question: 'What happens when I hit my limits on Free?',
-    answer: 'We\'ll notify you when you\'re approaching limits. Your workflows won\'t stop—we\'ll just ask you to upgrade to continue. No surprise charges, ever.'
+    question: 'What does the 10% cover?',
+    answer: 'Hosting, automated audio previews, secure delivery, checkout, the embed widget, and the public API.'
   },
   {
-    question: 'Do you offer discounts for nonprofits or startups?',
-    answer: 'Yes! We offer 50% off Pro for verified nonprofits and qualifying startups. Contact our team to learn more about eligibility.'
+    question: 'Do buyers need an account?',
+    answer: 'No — they pay with Stripe Checkout and get the pack by email. No login, no account creation.'
   },
   {
-    question: 'What payment methods do you accept?',
-    answer: 'We accept all major credit cards, ACH transfers (for annual plans), and can invoice Enterprise customers in multiple currencies.'
+    question: 'What if a buyer loses the link?',
+    answer: "They can self-serve a resend. If their downloads run out, they can request an extension and you approve +5 downloads / +7 days in one click from your dashboard."
   },
   {
-    question: 'Is there a long-term contract?',
-    answer: 'No long-term contracts required. Monthly plans can be cancelled anytime. Annual plans are paid upfront but include the 20% discount.'
+    question: 'How do refunds work?',
+    answer: "Refund from your own Stripe dashboard. AuxKit's webhook picks it up, revokes the download token, and rebates its platform fee."
+  },
+  {
+    question: 'What are the storage limits?',
+    answer: '3 GB free, 20 GB once Stripe is connected, and 5 GB per pack. Need more? Higher quotas are available by request.'
   }
 ]
 </script>
@@ -336,46 +268,8 @@ const faqs = [
 
 .hero-desc {
   max-width: 600px;
-  margin: 0 auto var(--space-2xl);
+  margin: 0 auto;
   font-size: 1.25rem;
-}
-
-/* Billing Toggle */
-.billing-toggle {
-  display: inline-flex;
-  padding: var(--space-xs);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-}
-
-.billing-toggle button {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-md) var(--space-xl);
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-md);
-  color: var(--color-text-secondary);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.billing-toggle button.active {
-  background: var(--color-accent);
-  color: white;
-}
-
-.save-badge {
-  padding: var(--space-xs) var(--space-sm);
-  background: var(--color-success);
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: var(--radius-full);
 }
 
 /* Pricing Cards */
@@ -450,6 +344,7 @@ const faqs = [
 .pricing-card .btn {
   width: 100%;
   margin-bottom: var(--space-xl);
+  justify-content: center;
 }
 
 .plan-features {
@@ -478,7 +373,12 @@ const faqs = [
   border-top: 1px solid var(--color-border);
 }
 
+.comparison-table-wrap {
+  overflow-x: auto;
+}
+
 .comparison-table {
+  min-width: 700px;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
@@ -503,16 +403,6 @@ const faqs = [
   text-align: left;
 }
 
-.category-header {
-  padding: var(--space-md) var(--space-lg);
-  background: var(--color-bg);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 .comparison-row {
   display: grid;
   grid-template-columns: 2fr repeat(3, 1fr);
@@ -531,26 +421,21 @@ const faqs = [
 }
 
 .comparison-row .feature-name {
-  gap: var(--space-sm);
   color: var(--color-text-secondary);
-}
-
-.feature-tooltip {
-  color: var(--color-text-muted);
-  cursor: help;
 }
 
 .comparison-row .feature-value {
   justify-content: center;
   font-size: 0.9375rem;
   color: var(--color-text-secondary);
+  text-align: center;
 }
 
 .feature-value .check {
   color: var(--color-success);
 }
 
-.feature-value .cross {
+.feature-value .dash {
   color: var(--color-text-muted);
   opacity: 0.5;
 }
@@ -572,6 +457,9 @@ const faqs = [
   font-size: 1.125rem;
   margin-bottom: var(--space-lg);
   color: var(--color-text-secondary);
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .philosophy-values {
@@ -665,10 +553,6 @@ const faqs = [
   .pricing-card.featured {
     transform: none;
     order: -1;
-  }
-
-  .comparison-table {
-    overflow-x: auto;
   }
 
   .comparison-header,
