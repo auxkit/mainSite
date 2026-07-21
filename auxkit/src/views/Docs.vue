@@ -121,6 +121,56 @@ auxkit dev</code></pre>
       </div>
     </section>
 
+    <!-- Public API & Embed Widget -->
+    <section class="dev-api-teaser section grid-texture">
+      <div class="container">
+        <div class="section-header">
+          <SectionLabel>Developer API and Embed Widget</SectionLabel>
+          <h2>Sell sample packs from any site you control</h2>
+          <p>A read-only public API and a drop-in embed widget for sample-pack commerce.</p>
+        </div>
+
+        <div class="documentation-content">
+          <div class="doc-prose">
+            <h3>API keys</h3>
+            <p>
+              Every request to the public API is authorized with an API key. Create one from
+              your dashboard, scope it with read permission, and reveal it when you need to
+              copy it into your integration.
+            </p>
+
+            <h3>Public read-only API</h3>
+            <p>
+              These endpoints are safe to call from a browser or a build step—no server-side
+              secret required beyond the key itself.
+            </p>
+            <ul class="endpoint-list">
+              <li><code>GET /public/packs</code><span>List published packs</span></li>
+              <li><code>GET /public/packs/{id}</code><span>Pack detail, with samples</span></li>
+              <li><code>POST /public/packs/{id}/checkout</code><span>Start a Stripe Checkout session</span></li>
+              <li><code>GET /public/sites</code><span>Portfolio site feed</span></li>
+              <li><code>GET /public/songs</code><span>Portfolio song feed</span></li>
+            </ul>
+
+            <h3>Buyer self-service</h3>
+            <p>
+              Once a purchase is made, buyers don't need to contact support to get their files.
+              They can resend their download link or request an extension straight from the
+              link they were emailed.
+            </p>
+
+            <h3>Embed widget</h3>
+            <p>
+              <code>auxkit-embed.js</code> renders a pack grid (or a single pack) with a preview
+              player wherever you drop it, and sends buyers through Stripe Checkout on purchase.
+            </p>
+          </div>
+
+          <EmbedCodeSnippet />
+        </div>
+      </div>
+    </section>
+
     <!-- API Status -->
     <section class="api-status section">
       <div class="container">
@@ -140,10 +190,12 @@ auxkit dev</code></pre>
 </template>
 
 <script setup>
-import { 
+import {
   Search, ArrowRight, BookOpen, Code, Plug2, FileText,
   Copy, Puzzle, ExternalLink, Rocket, Zap
 } from 'lucide-vue-next'
+import SectionLabel from '../components/SectionLabel.vue'
+import EmbedCodeSnippet from '../components/EmbedCodeSnippet.vue'
 
 const quickLinks = [
   {
@@ -184,6 +236,10 @@ const docSections = [
   {
     title: 'API Reference',
     items: ['Authentication', 'Workflows', 'Data', 'Tasks', 'Automations', 'Webhooks']
+  },
+  {
+    title: 'Sample Pack Commerce',
+    items: ['API Keys', 'Public Packs API', 'Checkout', 'Embed Widget', 'Buyer Self-Service']
   },
   {
     title: 'Guides',
@@ -494,6 +550,96 @@ const docSections = [
 .next-step:hover svg:last-child {
   color: var(--color-accent);
   transform: translateX(4px);
+}
+
+/* Public API & Embed Widget teaser */
+.dev-api-teaser {
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.dev-api-teaser .section-header h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.documentation-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3xl);
+  align-items: start;
+}
+
+/* Documentation prose rhythm: generous, consistent heading/paragraph
+   spacing for long-form developer content. */
+.doc-prose h3 {
+  font-size: 1.125rem;
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
+}
+
+.doc-prose h3:first-child {
+  margin-top: 0;
+}
+
+.doc-prose p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  margin-bottom: var(--space-md);
+}
+
+.doc-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: var(--accent-hover);
+}
+
+.endpoint-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  margin-bottom: var(--space-md);
+}
+
+.endpoint-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.endpoint-list li:last-child {
+  border-bottom: none;
+}
+
+.endpoint-list code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--accent-hover);
+}
+
+.endpoint-list span {
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+}
+
+@media (max-width: 1024px) {
+  .documentation-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .endpoint-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 /* API Status */
