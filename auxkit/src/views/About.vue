@@ -32,10 +32,18 @@
           </div>
           <div class="mission-visual" v-motion-slide-visible-once-right>
             <div class="visual-box">
-              <div class="visual-element"></div>
-              <div class="visual-element"></div>
-              <div class="visual-element"></div>
-              <div class="visual-element center"></div>
+              <div class="visual-element" title="Direct-to-fan">
+                <Store :size="28" />
+              </div>
+              <div class="visual-element" title="No lock-in">
+                <Unlock :size="28" />
+              </div>
+              <div class="visual-element" title="Transparent flat fee">
+                <Percent :size="28" />
+              </div>
+              <div class="visual-element center" title="Buyer-respecting">
+                <Headphones :size="32" />
+              </div>
             </div>
           </div>
         </div>
@@ -269,11 +277,15 @@ const values = [
 
 .visual-element {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 80px;
   height: 80px;
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
   transition: all var(--transition-base);
 }
 
@@ -290,6 +302,7 @@ const values = [
   height: 100px;
   background: var(--color-accent-subtle);
   border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 /* Philosophy */
