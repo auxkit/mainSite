@@ -4,7 +4,7 @@
       <div class="section-header">
         <span class="badge mb-lg">Features</span>
         <h2>Everything you need, nothing you don't</h2>
-        <p>Six modular components that snap together to form your perfect workflow.</p>
+        <p>Six real capabilities that power your storefront, from upload to payout.</p>
       </div>
 
       <div class="grid grid-3">
@@ -31,51 +31,51 @@
 </template>
 
 <script setup>
-import { 
-  Workflow, 
-  Database, 
-  ListTodo, 
-  Plug2, 
-  BarChart3, 
-  Zap,
-  ArrowRight 
+import {
+  PackageOpen,
+  AudioLines,
+  Code,
+  CreditCard,
+  ShieldCheck,
+  Globe,
+  ArrowRight
 } from 'lucide-vue-next'
 
 const features = [
   {
-    icon: Workflow,
-    title: 'Workflow Engine',
-    description: 'Visual workflow builder with conditional logic, parallel paths, and approval gates.',
+    icon: PackageOpen,
+    title: 'Pack Manager',
+    description: 'Create packs, upload samples with artwork, BPM/key metadata. Publish triggers an automatic download-bundle build.',
     color: 'rgba(99, 102, 241, 0.15)'
   },
   {
-    icon: Database,
-    title: 'Shared Data Layer',
-    description: 'Unified data model that syncs across all modules and integrations in real-time.',
+    icon: AudioLines,
+    title: 'Audio Previews',
+    description: 'Streaming previews auto-generated for every sample you upload.',
     color: 'rgba(34, 197, 94, 0.15)'
   },
   {
-    icon: ListTodo,
-    title: 'Task & Ops Manager',
-    description: 'Kanban, lists, and timeline views with assignments, due dates, and dependencies.',
-    color: 'rgba(245, 158, 11, 0.15)'
-  },
-  {
-    icon: Plug2,
-    title: 'Integrations Hub',
-    description: 'Connect to 50+ tools with pre-built connectors or build your own with our SDK.',
+    icon: Code,
+    title: 'Embed Widget',
+    description: 'One script tag, zero runtime dependencies. Grid or single-pack view, dropped into any page.',
     color: 'rgba(236, 72, 153, 0.15)'
   },
   {
-    icon: BarChart3,
-    title: 'Metrics & Reporting',
-    description: 'Custom dashboards, automated reports, and real-time KPI tracking for your team.',
+    icon: CreditCard,
+    title: 'Stripe Payouts',
+    description: 'Connect onboarding, direct charges — you\'re the merchant of record, sales settle in your own account.',
     color: 'rgba(139, 92, 246, 0.15)'
   },
   {
-    icon: Zap,
-    title: 'Automations',
-    description: 'Trigger-based automations that eliminate repetitive work and reduce errors.',
+    icon: ShieldCheck,
+    title: 'Secure Delivery',
+    description: 'Email delivery with tokenized links — 5 downloads / 7 days, one-click resend, and extension grants (+5 downloads, +7 days).',
+    color: 'rgba(245, 158, 11, 0.15)'
+  },
+  {
+    icon: Globe,
+    title: 'Portfolio Sites & Song Feeds',
+    description: 'A hosted home for your music and catalogue — free, no code required.',
     color: 'rgba(6, 182, 212, 0.15)'
   }
 ]
