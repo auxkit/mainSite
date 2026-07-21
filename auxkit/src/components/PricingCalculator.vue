@@ -73,17 +73,22 @@
               <span class="calc-value">{{ selectedModules.length }} selected</span>
             </div>
             <div class="modules-grid">
-              <button 
+              <button
                 v-for="mod in modules"
                 :key="mod.id"
-                :class="['module-btn', { 
+                :class="['module-btn', {
                   active: selectedModules.includes(mod.id),
                   free: mod.price === 0
                 }]"
                 @click="toggleModule(mod.id)"
               >
+                <span class="module-btn-wash" />
+                <span class="module-dot" />
                 <component :is="mod.icon" :size="18" />
                 <span class="module-name">{{ mod.name }}</span>
+                <span v-if="mod.isNew" class="tag-badge tag-badge--accent module-new-badge">
+                  <span class="tag-dot" />New
+                </span>
                 <span v-if="mod.price > 0" class="module-price">+${{ mod.price }}/mo</span>
                 <span v-else class="module-price free">Included</span>
                 <Check v-if="selectedModules.includes(mod.id)" :size="16" class="check-icon" />
@@ -201,10 +206,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { 
+import {
   Users, Calendar, Blocks, Sparkles, Check, ArrowRight,
   Download, Shield, MessageCircle, TrendingDown, Zap,
-  Workflow, Database, FileText, GitBranch, LineChart, Lock
+  Workflow, Database, FileText, GitBranch, LineChart, Lock, Music
 } from 'lucide-vue-next'
 
 const teamSize = ref(10)
@@ -218,7 +223,8 @@ const modules = [
   { id: 'docs', name: 'Docs & Wiki', icon: FileText, price: 5 },
   { id: 'git', name: 'Version Control', icon: GitBranch, price: 8 },
   { id: 'analytics', name: 'Analytics', icon: LineChart, price: 12 },
-  { id: 'security', name: 'Security+', icon: Lock, price: 15 }
+  { id: 'security', name: 'Security+', icon: Lock, price: 15 },
+  { id: 'packs', name: 'Sample Packs', icon: Music, price: 10, isNew: true }
 ]
 
 const addons = [
@@ -424,11 +430,42 @@ const potentialSavings = computed(() => {
   padding: var(--space-lg);
   background: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-none);
   color: var(--color-text-secondary);
   font-size: 0.875rem;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  overflow: hidden;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* Soft wash fades in on select instead of a hard color swap */
+.module-btn-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.module-btn.active .module-btn-wash {
+  opacity: 0.1;
+}
+
+.module-dot {
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  transition: background var(--transition-fast);
+}
+
+.module-btn.active .module-dot {
+  background: var(--color-accent);
 }
 
 .module-btn:hover {
@@ -436,13 +473,17 @@ const potentialSavings = computed(() => {
 }
 
 .module-btn.active {
-  background: rgba(99, 102, 241, 0.1);
   border-color: var(--color-accent);
   color: var(--color-text-primary);
 }
 
 .module-btn svg:first-child {
+  position: relative;
   color: var(--color-accent);
+}
+
+.module-new-badge {
+  position: relative;
 }
 
 .module-name {
