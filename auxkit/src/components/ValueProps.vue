@@ -43,7 +43,7 @@ const valueProps = [
     features: [
       'Grid or single-pack detail views',
       'Auto-generated audio previews',
-      'Prices in the buyer\'s currency, Stripe checkout built in',
+      'Prices formatted per currency, Stripe checkout built in',
       'Dark-mode aware, zero runtime dependencies'
     ]
   },
