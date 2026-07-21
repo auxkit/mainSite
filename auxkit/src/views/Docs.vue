@@ -127,7 +127,7 @@ auxkit dev</code></pre>
         <div class="section-header">
           <SectionLabel>Developer API and Embed Widget</SectionLabel>
           <h2>Sell sample packs from any site you control</h2>
-          <p>A read-only public API and a drop-in embed widget for sample-pack commerce.</p>
+          <p>A public API and a drop-in embed widget for sample-pack commerce.</p>
         </div>
 
         <div class="documentation-content">
@@ -139,18 +139,23 @@ auxkit dev</code></pre>
               copy it into your integration.
             </p>
 
-            <h3>Public read-only API</h3>
+            <h3>Public API</h3>
             <p>
-              These endpoints are safe to call from a browser or a build step—no server-side
-              secret required beyond the key itself.
+              The <code>GET</code> endpoints below are read-only and safe to call from a
+              browser or a build step with your API key. Purchases go through a separate
+              checkout endpoint that's state-changing—it starts a Stripe Checkout session,
+              so it should be triggered on a buyer's click rather than prefetched or cached.
             </p>
             <ul class="endpoint-list">
               <li><code>GET /public/packs</code><span>List published packs</span></li>
               <li><code>GET /public/packs/{id}</code><span>Pack detail, with samples</span></li>
-              <li><code>POST /public/packs/{id}/checkout</code><span>Start a Stripe Checkout session</span></li>
               <li><code>GET /public/sites</code><span>Portfolio site feed</span></li>
               <li><code>GET /public/songs</code><span>Portfolio song feed</span></li>
             </ul>
+            <p class="endpoint-note">
+              A checkout endpoint starts the Stripe Checkout session for a pack purchase—the
+              embed widget below calls it for you, so you don't need to wire it up by hand.
+            </p>
 
             <h3>Buyer self-service</h3>
             <p>

@@ -6,9 +6,10 @@
           <SectionLabel>Developer API and Embed Widget</SectionLabel>
           <h2>Build sample-pack commerce into your own site</h2>
           <p>
-            A read-only public API and a drop-in embed widget power the storefront
-            without you writing a checkout flow. Authorize requests with an API key
-            (created and revealed from your dashboard), then call:
+            A public API and a drop-in embed widget power the storefront without you
+            writing a checkout flow. Authorize requests with an API key (created and
+            revealed from your dashboard). The read-only endpoints below are safe to
+            call straight from a browser or a build step:
           </p>
 
           <ul class="dev-api__endpoints">
@@ -21,18 +22,16 @@
               <span>Pack detail, with samples</span>
             </li>
             <li>
-              <code>POST /public/packs/{id}/checkout</code>
-              <span>Start a Stripe Checkout session</span>
-            </li>
-            <li>
               <code>GET /public/sites</code> · <code>GET /public/songs</code>
               <span>Existing portfolio feeds</span>
             </li>
           </ul>
 
           <p>
-            Buyers get self-service too—resending a download link or requesting an
-            extension doesn't require contacting support.
+            When a buyer clicks purchase, a separate—state-changing—checkout endpoint
+            starts a Stripe Checkout session for the pack; the embed widget calls it
+            for you. Buyers get self-service too—resending a download link or
+            requesting an extension doesn't require contacting support.
           </p>
 
           <router-link to="/docs" class="btn btn-secondary">
