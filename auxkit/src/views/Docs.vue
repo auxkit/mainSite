@@ -152,16 +152,17 @@
 
             <h3>Public API</h3>
             <p>
-              The <code>GET</code> endpoints below are read-only and safe to call from a
-              browser or a build step with your API key. Checkout, resend, and extension
-              requests are state-changing—triggered on a buyer's click rather than
-              prefetched or cached.
+              Only <code>GET /public/packs</code> and <code>GET /public/packs/{id}</code>
+              are read-only and safe to call from a browser or a build step with your API
+              key. Everything else is state-changing—including <code>GET /download</code>,
+              which consumes one of the buyer's 5 downloads per request, so it must only be
+              triggered on a buyer's click, never prefetched or cached.
             </p>
             <ul class="endpoint-list">
               <li><code>GET /public/packs</code><span>List published packs</span></li>
               <li><code>GET /public/packs/{id}</code><span>Pack detail, with samples</span></li>
               <li><code>POST /public/packs/{id}/checkout</code><span>Start a Stripe Checkout session</span></li>
-              <li><code>GET /download?token=</code><span>Redirect to a presigned download</span></li>
+              <li><code>GET /download?token=</code><span>Redirect to a presigned download—consumes one download per request, never prefetch or cache</span></li>
               <li><code>POST /public/purchases/resend</code><span>Resend a buyer's download link</span></li>
               <li><code>POST /public/purchases/request-extension</code><span>Request +5 downloads / +7 days</span></li>
             </ul>

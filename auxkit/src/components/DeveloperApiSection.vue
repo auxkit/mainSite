@@ -8,10 +8,12 @@
           <p>
             A public API and a drop-in embed widget power the storefront without you
             writing a checkout flow. Authorize requests with an API key (created and
-            revealed from your dashboard). The <code>GET</code> endpoints below are
-            read-only and safe to call straight from a browser or a build step;
-            checkout, resend, and extension requests are state-changing—triggered on
-            a buyer's click rather than prefetched or cached:
+            revealed from your dashboard). Only <code>GET /public/packs</code> and
+            <code>GET /public/packs/{id}</code> are read-only and safe to call
+            straight from a browser or a build step. Everything else below is
+            state-changing—including <code>GET /download</code>, which consumes one of
+            the buyer's 5 downloads per request, so it must only be triggered on a
+            buyer's click, never prefetched or cached:
           </p>
 
           <ul class="dev-api__endpoints">
@@ -29,7 +31,7 @@
             </li>
             <li>
               <code>GET /download?token=</code>
-              <span>Redirects to the presigned download</span>
+              <span>Redirects to the presigned download—consumes one download per request, never prefetch or cache</span>
             </li>
             <li>
               <code>POST /public/purchases/resend</code>
