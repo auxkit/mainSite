@@ -8,8 +8,10 @@
           <p>
             A public API and a drop-in embed widget power the storefront without you
             writing a checkout flow. Authorize requests with an API key (created and
-            revealed from your dashboard). The read-only endpoints below are safe to
-            call straight from a browser or a build step:
+            revealed from your dashboard). The <code>GET</code> endpoints below are
+            read-only and safe to call straight from a browser or a build step;
+            checkout, resend, and extension requests are state-changing—triggered on
+            a buyer's click rather than prefetched or cached:
           </p>
 
           <ul class="dev-api__endpoints">
@@ -42,10 +44,10 @@
           <p class="dev-api__meta">Bearer ak_ keys · 60 req/min · domain-restricted · 1-year expiry</p>
 
           <p>
-            When a buyer clicks purchase, a separate—state-changing—checkout endpoint
-            starts a Stripe Checkout session for the pack; the embed widget calls it
-            for you. Buyers get self-service too—resending a download link or
-            requesting an extension doesn't require contacting support.
+            When a buyer clicks purchase, the checkout endpoint starts a Stripe
+            Checkout session for the pack; the embed widget calls it for you. Buyers
+            get self-service too—resending a download link or requesting an extension
+            doesn't require contacting support.
           </p>
 
           <router-link to="/docs" class="btn btn-secondary">
