@@ -58,6 +58,31 @@
   /* Container */
   --container-max: 1280px;
   --container-narrow: 800px;
+
+  /* --- Semantic tokens (new-pattern components) ---
+     Mapped onto the existing indigo #6366f1 identity so future shared
+     components port cleanly. Used by components built for the sample-pack
+     commerce + developer surface work; older components keep --color-*. */
+  --bg: var(--color-bg);
+  --bg-subtle: var(--color-bg-elevated);
+  --surface: var(--color-bg-card);
+  --surface-hover: var(--color-bg-hover);
+  --border: var(--color-border);
+  --border-strong: #3f3f46;
+  --text: var(--color-text-primary);
+  --text-muted: var(--color-text-secondary);
+  --text-faint: var(--color-text-muted);
+  --accent: var(--color-accent);
+  --accent-hover: var(--color-accent-hover);
+  --accent-fg: #ffffff;
+  --accent-subtle: rgba(99, 102, 241, 0.09);
+  --focus-ring: rgba(99, 102, 241, 0.4);
+
+  /* Radius/shadow discipline for new-pattern components: flat, sharp, 1px
+     borders instead of drop shadows. Existing rounded components are
+     untouched. */
+  --radius-none: 0px;
+  --radius-tiny: 2px;
 }
 
 /* Reset */
@@ -400,4 +425,211 @@ a {
 ::selection {
   background: var(--color-accent);
   color: white;
+}
+
+/* Reduced motion kill-switch */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   New-pattern primitives
+   Flat, 0-radius, bordered register for the sample-pack commerce
+   and developer/API surfaces. Reused across SectionLabel, Badge,
+   feature-card grids, the stat strip, and the embed-code snippet.
+   ============================================================ */
+
+/* Eyebrow / overline micro-label above a section heading */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.8;
+  margin-bottom: var(--space-md);
+}
+
+.section-label::before {
+  content: '';
+  width: 1rem;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+/* Flat feature-card hover recipe: 1px low-alpha border, subtle elevation,
+   border brightens + lift + bottom accent line grows on hover. */
+.card-flat {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-none);
+  padding: var(--space-xl);
+  transition: transform var(--transition-base), border-color var(--transition-base), background var(--transition-base);
+  overflow: hidden;
+}
+
+.card-flat::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+
+.card-flat:hover {
+  border-color: var(--accent);
+  background: var(--surface-hover);
+  transform: translateY(-4px);
+}
+
+.card-flat:hover::after {
+  transform: scaleX(1);
+}
+
+/* Status/tag badge: chip with a small colored dot, tinted background,
+   1px border, uppercase tracked-out label. Restrained — no pulse/glow. */
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.3rem var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-tiny);
+  background: var(--bg-subtle);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tag-badge .tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.tag-badge--accent {
+  border-color: rgba(99, 102, 241, 0.35);
+  background: var(--accent-subtle);
+  color: var(--accent-hover);
+}
+
+.tag-badge--live {
+  border-color: rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.09);
+  color: var(--color-success);
+}
+
+.tag-badge--beta {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.09);
+  color: var(--color-warning);
+}
+
+/* Stat strip: one bordered container, internal 1px dividers, no gaps,
+   tabular numerals with an uppercase tracked-out label underneath. */
+.stat-strip {
+  display: grid;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-none);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.stat-strip__item {
+  padding: var(--space-xl) var(--space-lg);
+  border-left: 1px solid var(--border);
+  text-align: center;
+}
+
+.stat-strip__item:first-child {
+  border-left: none;
+}
+
+.stat-strip__value {
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.stat-strip__label {
+  margin-top: var(--space-sm);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+@media (max-width: 768px) {
+  .stat-strip {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .stat-strip__item:nth-child(2n+1) {
+    border-left: none;
+  }
+
+  .stat-strip__item:nth-child(-n+2) {
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-strip {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stat-strip__item {
+    border-left: none !important;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-strip__item:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Ambient cross-hatch grid texture — developer/API sections only, faint,
+   masked so it fades at the section edges. Use at most once per page. */
+.grid-texture {
+  position: relative;
+}
+
+.grid-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.025;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
 }
