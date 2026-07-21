@@ -45,16 +45,16 @@ import { Copy, Check } from 'lucide-vue-next'
 // Placeholder key only — never a real API key or the real CloudFront URL.
 const snippet = `<script
   src="https://embed.auxkit.dev/auxkit-embed.js"
-  data-api-key="pk_YOUR_KEY"
+  data-api-key="ak_YOUR_KEY"
   data-target="#auxkit-packs"
   async
 ><\/script>
 <div id="auxkit-packs"></div>`
 
 const attributes = [
-  { name: 'data-api-key', required: true, description: 'Your public API key, used to authorize read-only requests.' },
+  { name: 'data-api-key', required: true, description: 'Your AuxKit API key (ak_...), sent as an Authorization: Bearer header to authorize requests.' },
   { name: 'data-api-base', required: false, description: 'Override the API base URL. Defaults to the AuxKit API.' },
-  { name: 'data-target', required: false, description: "CSS selector for the mount point. Defaults to #auxkit-packs." },
+  { name: 'data-target', required: false, description: "CSS selector for the mount point. If omitted (or no match is found), a container is inserted immediately before the script tag." },
   { name: 'data-pack', required: false, description: 'Show a single pack instead of the full storefront grid.' },
 ]
 

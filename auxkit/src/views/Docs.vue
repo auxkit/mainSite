@@ -149,8 +149,8 @@ auxkit dev</code></pre>
             <ul class="endpoint-list">
               <li><code>GET /public/packs</code><span>List published packs</span></li>
               <li><code>GET /public/packs/{id}</code><span>Pack detail, with samples</span></li>
-              <li><code>GET /public/sites</code><span>Portfolio site feed</span></li>
-              <li><code>GET /public/songs</code><span>Portfolio song feed</span></li>
+              <li><code>GET /public/sites/{siteId}/songs</code><span>Portfolio song feed for a site</span></li>
+              <li><code>GET /public/sites/{siteId}/songs/{id}</code><span>Single song detail</span></li>
             </ul>
             <p class="endpoint-note">
               A checkout endpoint starts the Stripe Checkout session for a pack purchase—the

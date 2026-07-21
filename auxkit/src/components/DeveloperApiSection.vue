@@ -22,8 +22,12 @@
               <span>Pack detail, with samples</span>
             </li>
             <li>
-              <code>GET /public/sites</code> · <code>GET /public/songs</code>
-              <span>Existing portfolio feeds</span>
+              <code>GET /public/sites/{siteId}/songs</code>
+              <span>Portfolio song feed for a site</span>
+            </li>
+            <li>
+              <code>GET /public/sites/{siteId}/songs/{id}</code>
+              <span>Single song detail</span>
             </li>
           </ul>
 
