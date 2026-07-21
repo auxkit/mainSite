@@ -180,7 +180,14 @@ const getOrbitPosition = (index, total, radius) => {
   const angle = (index / total) * Math.PI * 2 - Math.PI / 2
   const x = Math.cos(angle) * radius
   const y = Math.sin(angle) * radius
-  return { transform: `translate(${x}px, ${y}px)` }
+  // Positioning is passed as custom properties (not `transform` directly)
+  // because .module-node also has a `counter-spin` keyframe animation that
+  // animates `transform` — an animation's keyframes fully own the transform
+  // property while running, so an inline `transform` here would be silently
+  // overridden and every node would collapse to the same translate(0, 0)
+  // origin. The keyframes below reference these vars so the orbit position
+  // and the counter-rotation compose instead of fighting.
+  return { '--node-x': `${x}px`, '--node-y': `${y}px` }
 }
 
 const getShapeStyle = (n) => {
@@ -524,9 +531,14 @@ const getShapeStyle = (n) => {
   animation: counter-spin 45s linear infinite;
 }
 
+/* Keyframes must include the translate(--node-x, --node-y) placement on
+   every step: an element can only have one live `transform`, so the running
+   animation fully owns it. Baking the per-node position into the keyframes
+   (instead of leaving it as an inline `transform`) lets each node keep its
+   spot on the ring while counter-rotating against the parent .orbit spin. */
 @keyframes counter-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+  from { transform: translate(var(--node-x), var(--node-y)) rotate(0deg); }
+  to { transform: translate(var(--node-x), var(--node-y)) rotate(-360deg); }
 }
 
 .node-icon {
