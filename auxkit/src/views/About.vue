@@ -4,9 +4,9 @@
     <section class="page-hero">
       <div class="container">
         <span class="badge mb-lg" v-motion-fade-visible>About AuxKit</span>
-        <h1 v-motion-slide-visible-bottom>We build tools that<br/>remove friction, not add options</h1>
+        <h1 v-motion-slide-visible-bottom>Your storefront.<br/>Your audience. Your Stripe account.</h1>
         <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
-          A team of operators, engineers, and designers who got tired of tools that promised simplicity and delivered complexity.
+          A small team of musicians building the storefront layer we wished existed when we started selling our own sounds.
         </p>
       </div>
     </section>
@@ -18,13 +18,16 @@
           <div class="mission-content" v-motion-slide-visible-left>
             <h2>Our Mission</h2>
             <p class="mission-statement">
-              "We build tools that remove friction, not add options."
+              "Musicians should own their storefront, their audience, and their income."
             </p>
             <p>
-              Every feature we add has to earn its place. We believe the best software feels invisible—it just works, letting you focus on the work that matters.
+              AuxKit exists so selling your own sounds from your own site is as easy as
+              embedding a video. No marketplace commission, no algorithm to please, no
+              glue code between checkout and delivery.
             </p>
             <p>
-              We're not trying to build the everything platform. We're building the right things, done exceptionally well, that connect seamlessly to form your perfect workflow.
+              You keep the customer relationship. Money settles in your own Stripe
+              account. We take a flat 10% only when a pack sells.
             </p>
           </div>
           <div class="mission-visual" v-motion-slide-visible-right>
@@ -43,14 +46,14 @@
     <section class="philosophy-section section">
       <div class="container">
         <div class="section-header">
-          <span class="badge mb-lg">Philosophy</span>
-          <h2>Why modular?</h2>
-          <p>We believe in tools that adapt to you, not the other way around.</p>
+          <span class="badge mb-lg">Principles</span>
+          <h2>What AuxKit is built on</h2>
+          <p>Four commitments that shape every part of the product.</p>
         </div>
 
-        <div class="grid grid-3">
-          <div 
-            v-for="(principle, index) in principles" 
+        <div class="grid grid-4">
+          <div
+            v-for="(principle, index) in principles"
             :key="principle.title"
             class="principle-card"
             v-motion-slide-visible-bottom
@@ -72,16 +75,9 @@
         <div class="story-content" v-motion-fade-visible>
           <h2>The AuxKit Story</h2>
           <p>
-            AuxKit started with a frustration shared by anyone who's tried to coordinate work across a team: too many tools, too little integration, too much time lost to friction.
-          </p>
-          <p>
-            Our founding team came from operations, engineering, and product roles at companies of all sizes. We'd all experienced the same pattern: adopt a new tool to solve one problem, only to create three new ones.
-          </p>
-          <p>
-            So we asked: what if we built a system where every component was designed to work together from day one? What if you could pick exactly what you need, and everything just... connected?
-          </p>
-          <p>
-            That's AuxKit. A modular toolkit that grows with your team, adapts to your workflows, and stays out of your way while you do the work that matters.
+            AuxKit started with a simple frustration: selling a sample pack from your own
+            website meant weeks of glue code—checkout, hosting, expiring links, lost-download
+            support email. We built the storefront layer so musicians don't have to.
           </p>
         </div>
       </div>
@@ -92,23 +88,16 @@
       <div class="container">
         <div class="section-header">
           <span class="badge mb-lg">Team</span>
-          <h2>The people behind AuxKit</h2>
-          <p>A small, focused team building tools we want to use ourselves.</p>
+          <h2>Built by musicians, for musicians</h2>
+          <p>
+            AuxKit is built by a small team of people who make and sell music
+            themselves. We use the seller dashboard for our own packs, so every
+            rough edge we ship is one we felt first.
+          </p>
         </div>
 
-        <div class="grid grid-4">
-          <div 
-            v-for="(member, index) in team" 
-            :key="member.name"
-            class="team-card"
-            v-motion-slide-visible-bottom
-            :delay="index * 75"
-          >
-            <div class="member-avatar">{{ member.name.charAt(0) }}</div>
-            <h4>{{ member.name }}</h4>
-            <span class="member-role">{{ member.role }}</span>
-            <p class="member-bio">{{ member.bio }}</p>
-          </div>
+        <div class="team-chips" v-motion-fade-visible>
+          <span v-for="chip in teamChips" :key="chip" class="team-chip">{{ chip }}</span>
         </div>
       </div>
     </section>
@@ -119,9 +108,10 @@
         <div class="values-grid">
           <div class="values-header" v-motion-slide-visible-left>
             <span class="badge mb-lg">Values</span>
-            <h2>What we believe</h2>
+            <h2>What we commit to</h2>
             <p>
-              These principles guide every decision we make, from product features to customer support.
+              Product commitments that follow directly from our principles—not slogans,
+              things you can check against the product.
             </p>
           </div>
           <div class="values-list" v-motion-slide-visible-right>
@@ -134,20 +124,25 @@
       </div>
     </section>
 
-    <!-- Careers CTA -->
+    <!-- Get in touch -->
     <section class="careers-section section">
       <div class="container">
         <div class="careers-box" v-motion-fade-visible>
           <div class="careers-content">
-            <h2>Join the team</h2>
+            <h2>Get in touch</h2>
             <p>
-              We're always looking for thoughtful people who care deeply about building great products. Remote-first, async-friendly, and focused on impact.
+              Questions about selling with AuxKit? We read everything.
             </p>
           </div>
-          <a href="#" class="btn btn-primary btn-lg">
-            View Open Positions
-            <ArrowRight :size="18" />
-          </a>
+          <div class="careers-actions">
+            <a href="mailto:hello@auxkit.dev" class="btn btn-primary btn-lg">
+              Contact us
+              <ArrowRight :size="18" />
+            </a>
+            <router-link to="/docs" class="btn btn-secondary btn-lg">
+              Read the docs
+            </router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -157,66 +152,50 @@
 </template>
 
 <script setup>
-import { Blocks, Puzzle, Gauge, Sparkles, ArrowRight } from 'lucide-vue-next'
+import { Store, Unlock, Percent, Headphones, ArrowRight } from 'lucide-vue-next'
 import CTASection from '../components/CTASection.vue'
 
 const principles = [
   {
-    icon: Blocks,
-    title: 'Composability First',
-    description: 'Every module is built to work independently or together. No forced bundles, no artificial dependencies.'
+    icon: Store,
+    title: 'Direct-to-fan',
+    description: 'You\'re the merchant of record. Money settles in your own Stripe account, not ours.'
   },
   {
-    icon: Puzzle,
-    title: 'Integrate, Don\'t Replace',
-    description: 'We meet you where you are. AuxKit enhances your existing stack instead of demanding you replace it.'
+    icon: Unlock,
+    title: 'No lock-in',
+    description: 'Plain HTTPS, one script tag, your files remain yours. Nothing proprietary to get stuck in.'
   },
   {
-    icon: Gauge,
-    title: 'Simplicity is Hard',
-    description: 'We spend the time to make things simple so you don\'t have to. Complexity is the easy path; we take the harder one.'
+    icon: Percent,
+    title: 'Transparent',
+    description: 'One flat 10% fee, no subscription, no seats. What you see is what you pay.'
+  },
+  {
+    icon: Headphones,
+    title: 'Buyer-respecting',
+    description: 'Previews before purchase, self-service delivery, no forced accounts.'
   }
 ]
 
-const team = [
-  {
-    name: 'Alex Rivera',
-    role: 'CEO & Co-founder',
-    bio: 'Former Head of Ops at Scale AI. Obsessed with removing friction from work.'
-  },
-  {
-    name: 'Jordan Chen',
-    role: 'CTO & Co-founder',
-    bio: 'Ex-Stripe engineer. Believes the best code is the code you don\'t have to write.'
-  },
-  {
-    name: 'Sam Williams',
-    role: 'Head of Product',
-    bio: 'Previously at Notion. Focused on making complex things feel simple.'
-  },
-  {
-    name: 'Taylor Kim',
-    role: 'Head of Design',
-    bio: 'Ex-Linear design lead. Champions clarity over cleverness.'
-  }
-]
+const teamChips = ['Small team', 'Producer-first', 'Independent']
 
 const values = [
   {
-    title: 'Clarity over completeness',
-    description: 'We\'d rather do fewer things exceptionally well than many things poorly.'
+    title: 'You keep the relationship',
+    description: 'Direct charges mean you\'re the merchant of record—your customer, your Stripe account, your data.'
   },
   {
-    title: 'Honest defaults',
-    description: 'Our settings work out of the box. No dark patterns, no gotchas.'
+    title: 'No lock-in, ever',
+    description: 'Your samples, your pack pages, your embed—built on plain HTTPS and a script tag you can remove any time.'
   },
   {
-    title: 'Ship and iterate',
-    description: 'We believe in getting things into users\' hands and improving based on real feedback.'
+    title: 'One fee, no surprises',
+    description: 'A flat 10% platform fee when a pack sells. No subscription, no seats, no upsells.'
   },
   {
-    title: 'Documentation is product',
-    description: 'If it\'s not documented, it doesn\'t exist. Our docs are as important as our code.'
+    title: 'Buyers come first, too',
+    description: 'Audio previews before checkout, self-service resend and extension requests, no account required to buy.'
   }
 ]
 </script>
@@ -372,47 +351,21 @@ const values = [
   background: var(--color-bg);
 }
 
-.team-card {
+.team-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.team-chip {
+  padding: var(--space-sm) var(--space-lg);
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-xl);
-  text-align: center;
-  transition: all var(--transition-base);
-}
-
-.team-card:hover {
-  border-color: var(--color-accent);
-}
-
-.member-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  margin: 0 auto var(--space-lg);
-  background: var(--color-accent-subtle);
-  color: var(--color-accent);
-  font-weight: 700;
-  font-size: 1.5rem;
   border-radius: var(--radius-full);
-}
-
-.team-card h4 {
-  font-size: 1.125rem;
-  margin-bottom: var(--space-xs);
-}
-
-.member-role {
-  font-size: 0.875rem;
-  color: var(--color-accent);
-  display: block;
-  margin-bottom: var(--space-md);
-}
-
-.member-bio {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
 }
 
 /* Values */
@@ -483,6 +436,13 @@ const values = [
   max-width: 500px;
 }
 
+.careers-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-shrink: 0;
+}
+
 @media (max-width: 1024px) {
   .mission-grid,
   .values-grid {
@@ -497,6 +457,11 @@ const values = [
   .careers-box {
     flex-direction: column;
     text-align: center;
+  }
+
+  .careers-actions {
+    flex-direction: column;
+    width: 100%;
   }
 }
 </style>
