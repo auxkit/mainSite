@@ -223,8 +223,8 @@ const quickLinks = [
   },
   {
     icon: Zap,
-    title: 'SDK & Libraries',
-    description: 'Official SDKs for JavaScript, Python, Go, and more.',
+    title: 'Embed Widget',
+    description: 'Drop-in storefront widget for sample-pack commerce on any site.',
     color: 'rgba(236, 72, 153, 0.15)'
   }
 ]
@@ -235,20 +235,20 @@ const docSections = [
     items: ['Introduction', 'Quick Start', 'Core Concepts', 'Installation']
   },
   {
-    title: 'Modules',
-    items: ['Workflow Engine', 'Data Layer', 'Task Manager', 'Automations', 'Integrations', 'Metrics']
+    title: 'Product',
+    items: ['Portfolio Sites', 'Song Feeds', 'Sample Packs', 'Stripe Connect Payouts']
   },
   {
     title: 'API Reference',
-    items: ['Authentication', 'Workflows', 'Data', 'Tasks', 'Automations', 'Webhooks']
+    items: ['Authentication', 'API Keys', 'Public Sites & Songs', 'Public Packs', 'Embed Widget']
   },
   {
     title: 'Sample Pack Commerce',
-    items: ['API Keys', 'Public Packs API', 'Checkout', 'Embed Widget', 'Buyer Self-Service']
+    items: ['Packs & Samples', 'Previews', 'Checkout', 'Downloads', 'Buyer Self-Service']
   },
   {
     title: 'Guides',
-    items: ['Building Workflows', 'Custom Integrations', 'Automation Recipes', 'Best Practices']
+    items: ['Embedding the Widget', 'Setting Up Payouts', 'Publishing a Pack', 'Best Practices']
   }
 ]
 </script>

@@ -209,29 +209,26 @@ import { ref, computed } from 'vue'
 import {
   Users, Calendar, Blocks, Sparkles, Check, ArrowRight,
   Download, Shield, MessageCircle, TrendingDown, Zap,
-  Workflow, Database, FileText, GitBranch, LineChart, Lock, Music
+  Globe, Rss, Code, Music
 } from 'lucide-vue-next'
 
 const teamSize = ref(10)
 const isAnnual = ref(true)
-const selectedModules = ref(['workflows', 'database'])
+const selectedModules = ref(['sites', 'songs'])
 const selectedAddons = ref([])
 
 const modules = [
-  { id: 'workflows', name: 'Workflows', icon: Workflow, price: 0 },
-  { id: 'database', name: 'Database', icon: Database, price: 0 },
-  { id: 'docs', name: 'Docs & Wiki', icon: FileText, price: 5 },
-  { id: 'git', name: 'Version Control', icon: GitBranch, price: 8 },
-  { id: 'analytics', name: 'Analytics', icon: LineChart, price: 12 },
-  { id: 'security', name: 'Security+', icon: Lock, price: 15 },
-  { id: 'packs', name: 'Sample Packs', icon: Music, price: 10, isNew: true }
+  { id: 'sites', name: 'Portfolio Sites', icon: Globe, price: 0 },
+  { id: 'songs', name: 'Song Feeds', icon: Rss, price: 0 },
+  { id: 'packs', name: 'Sample Packs', icon: Music, price: 10, isNew: true },
+  { id: 'api', name: 'API Access / Embed Widget', icon: Code, price: 8 }
 ]
 
 const addons = [
-  { id: 'sso', name: 'SSO / SAML', description: 'Enterprise single sign-on', price: 50 },
-  { id: 'audit', name: 'Advanced Audit Logs', description: 'Unlimited retention + export', price: 25 },
-  { id: 'sla', name: 'Priority SLA', description: '99.99% uptime guarantee', price: 100 },
-  { id: 'support', name: 'Dedicated Support', description: 'Named account manager', price: 200 }
+  { id: 'storage', name: 'Extra Storage', description: 'More room for samples, previews, and art', price: 15 },
+  { id: 'domain', name: 'Custom Domain', description: 'Use your own domain for your portfolio site', price: 10 },
+  { id: 'payouts', name: 'Faster Payouts', description: 'Expedited Stripe Connect payouts', price: 20 },
+  { id: 'support', name: 'Priority Support', description: 'Faster response times', price: 25 }
 ]
 
 function toggleModule(id) {

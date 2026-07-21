@@ -79,7 +79,7 @@ const AnimatedNumber = {
 
 const stats = [
   { value: 50000, suffix: '+', label: 'Active Users' },
-  { value: 2400000, suffix: '', label: 'Workflows Executed' },
+  { value: 180000, suffix: '+', label: 'Downloads Served' },
   { value: 99, suffix: '.99%', label: 'Uptime SLA' },
   { value: 140, suffix: '+', label: 'Countries' },
   { value: 500, suffix: '+', label: 'Enterprise Clients' },
