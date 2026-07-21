@@ -22,14 +22,24 @@
               <span>Pack detail, with samples</span>
             </li>
             <li>
-              <code>GET /public/sites/{siteId}/songs</code>
-              <span>Portfolio song feed for a site</span>
+              <code>POST /public/packs/{id}/checkout</code>
+              <span>Start a Stripe Checkout session</span>
             </li>
             <li>
-              <code>GET /public/sites/{siteId}/songs/{id}</code>
-              <span>Single song detail</span>
+              <code>GET /download?token=</code>
+              <span>Redirects to the presigned download</span>
+            </li>
+            <li>
+              <code>POST /public/purchases/resend</code>
+              <span>Resend a download link</span>
+            </li>
+            <li>
+              <code>POST /public/purchases/request-extension</code>
+              <span>Request +5 downloads, +7 days</span>
             </li>
           </ul>
+
+          <p class="dev-api__meta">Bearer ak_ keys · 60 req/min · domain-restricted · 1-year expiry</p>
 
           <p>
             When a buyer clicks purchase, a separate—state-changing—checkout endpoint
@@ -117,6 +127,13 @@ import EmbedCodeSnippet from './EmbedCodeSnippet.vue'
 .dev-api__endpoints span {
   font-size: 0.8125rem;
   color: var(--text-faint);
+}
+
+.dev-api__meta {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+  margin-bottom: var(--space-lg);
 }
 
 .dev-api__snippet {
