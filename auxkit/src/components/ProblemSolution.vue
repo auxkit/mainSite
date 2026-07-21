@@ -19,9 +19,11 @@
         <!-- Solution Side -->
         <div class="ps-solution" v-motion-slide-visible-right>
           <span class="badge mb-lg">The Solution</span>
-          <h2 class="gradient-text">AuxKit's Answer</h2>
+          <h2 class="gradient-text">AuxKit is the storefront layer for your own site</h2>
           <p class="solution-quote">
-            "One modular system. One universal design language. One place where your team's work actually makes sense."
+            Stripe checkout out of the box. Tokenized download links, five uses,
+            seven days. Buyer self-service resend and extension requests. Auto-generated
+            previews for every sample. One script tag to embed it all.
           </p>
           
           <div class="solution-visual">
@@ -56,10 +58,11 @@
 import { X, ArrowRight } from 'lucide-vue-next'
 
 const problems = [
-  'Tools that don\'t talk to each other',
-  'Noise, alerts, and duplicated work',
-  'Slow adoption due to complexity',
-  'Teams hacking together workflows with spreadsheets and screenshots'
+  'Marketplaces take their cut — and keep your customer relationship',
+  'Selling from your own site means hand-rolling checkout, hosting, and delivery',
+  'Zips over email and Drive links leak, break, and never expire',
+  'No previews, no metadata — buyers can\'t hear what they\'re getting',
+  'Every lost-download email is support work you do by hand'
 ]
 </script>
 
