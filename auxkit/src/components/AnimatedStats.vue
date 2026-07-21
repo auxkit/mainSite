@@ -80,7 +80,7 @@ const AnimatedNumber = {
 
 const stats = [
   { value: 10, suffix: '%', label: 'Flat platform fee, only when you sell' },
-  { value: 90, prefix: '~', suffix: '%', label: 'Of each sale goes to you' },
+  { value: 87, suffix: '-90%', label: 'Of each sale goes to you' },
   { value: 1, suffix: '', label: 'Script tag to embed your store' },
   { value: 5, suffix: '', label: 'Downloads per purchase, 7-day window' },
   { value: 20, suffix: ' GB', label: 'Seller storage (3 GB free tier)' },

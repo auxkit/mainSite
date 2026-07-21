@@ -81,7 +81,7 @@
               <div class="snippet-visual">
                 <pre><code><span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="str">"auxkit-packs"</span><span class="tag">&gt;&lt;/div&gt;</span>
 <span class="tag">&lt;script</span>
-  <span class="attr">src</span>=<span class="str">"https://cdn.example.com/auxkit-embed.js"</span>
+  <span class="attr">src</span>=<span class="str">"https://embed.auxkit.dev/auxkit-embed.js"</span>
   <span class="attr">data-api-key</span>=<span class="str">"ak_YOUR_KEY"</span>
   <span class="attr">data-target</span>=<span class="str">"#auxkit-packs"</span>
   <span class="attr">async</span>
@@ -218,7 +218,7 @@ const features = [
     ],
     stats: [
       { value: '10% flat fee', label: 'Platform cut' },
-      { value: '~90% to you', label: 'Per sale' }
+      { value: '~87-90% to you', label: 'Per sale' }
     ]
   },
   {

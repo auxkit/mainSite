@@ -26,7 +26,7 @@
         No subscription
         <span class="separator">•</span>
         <Check :size="16" />
-        Keep ~90% of every sale
+        Keep ~87-90% of every sale
       </p>
     </div>
   </section>

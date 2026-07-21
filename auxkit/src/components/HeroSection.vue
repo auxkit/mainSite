@@ -61,7 +61,7 @@
         </div>
         <div class="trust-item">
           <Check :size="16" />
-          <span>Keep ~90% of every sale</span>
+          <span>Keep ~87-90% of every sale</span>
         </div>
       </div>
 

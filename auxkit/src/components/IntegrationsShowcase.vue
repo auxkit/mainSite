@@ -92,7 +92,7 @@
               </div>
               <pre class="code-content"><code><span class="comment"># List published packs — no SDK, just HTTPS</span>
 <span class="function">curl</span> -H <span class="string">'Authorization: Bearer ak_YOUR_KEY'</span> \
-  https://api.example.com/public/packs</code></pre>
+  https://api.auxkit.dev/public/packs</code></pre>
             </div>
           </div>
         </div>
