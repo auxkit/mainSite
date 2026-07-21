@@ -113,15 +113,35 @@ onUnmounted(() => {
 }
 
 .nav-link {
+  position: relative;
   color: var(--color-text-secondary);
   font-size: 0.9375rem;
   font-weight: 500;
+  padding-bottom: 4px;
   transition: color var(--transition-fast);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  transform: scaleX(0);
+  transition: transform var(--transition-fast);
 }
 
 .nav-link:hover,
 .nav-link.router-link-active {
   color: var(--color-text-primary);
+}
+
+.nav-link:hover::after,
+.nav-link.router-link-active::after {
+  transform: scaleX(1);
 }
 
 .header-actions {
