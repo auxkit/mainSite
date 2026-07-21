@@ -1,10 +1,10 @@
 <template>
-  <section class="how-it-works section">
+  <section id="how-it-works" class="how-it-works section">
     <div class="container">
       <div class="section-header">
         <span class="badge mb-lg">How It Works</span>
         <h2>Up and running in minutes</h2>
-        <p>Three simple steps to transform how your team works.</p>
+        <p>Three steps from onboarding to your first sale.</p>
       </div>
 
       <div class="steps-container">
@@ -31,16 +31,15 @@
       <div class="cta-box" v-motion-fade-visible :delay="500">
         <div class="cta-content">
           <h3>Ready to get started?</h3>
-          <p>Join thousands of teams already using AuxKit to streamline their workflows.</p>
+          <p>Set up your free portfolio site, then connect Stripe when you're ready to sell.</p>
         </div>
         <div class="cta-actions">
           <router-link to="/pricing" class="btn btn-primary">
-            Start Free Trial
+            Start selling free
           </router-link>
-          <a href="#" class="btn btn-secondary">
-            <Play :size="18" />
-            Watch Demo
-          </a>
+          <router-link to="/docs" class="btn btn-secondary">
+            Read the docs
+          </router-link>
         </div>
       </div>
     </div>
@@ -48,23 +47,23 @@
 </template>
 
 <script setup>
-import { Plug2, Settings, Rocket, Play } from 'lucide-vue-next'
+import { CreditCard, UploadCloud, Code } from 'lucide-vue-next'
 
 const steps = [
   {
-    icon: Plug2,
-    title: 'Connect',
-    description: 'Plug AuxKit into the tools you already use. Our integrations hub makes it easy to sync data from anywhere.'
+    icon: CreditCard,
+    title: 'Connect Stripe',
+    description: 'Onboard with Stripe Connect so sales settle directly in your own account.'
   },
   {
-    icon: Settings,
-    title: 'Configure',
-    description: 'Pick the modules that fit your team. Customize workflows, permissions, and automations to match how you work.'
+    icon: UploadCloud,
+    title: 'Upload & publish',
+    description: 'Create a pack, add samples with artwork and BPM/key metadata. Previews are generated automatically.'
   },
   {
-    icon: Rocket,
-    title: 'Activate',
-    description: 'Run your workflows with structure and clarity. Watch your team\'s productivity soar as chaos becomes order.'
+    icon: Code,
+    title: 'Embed & sell',
+    description: 'Create an API key, paste the widget script tag into your site. Buyers pay via Stripe and get a secure download link by email.'
   }
 ]
 </script>
