@@ -3,14 +3,14 @@
     <div class="container">
       <div class="section-header">
         <span class="badge mb-lg">Integrations</span>
-        <h2>Connects to your entire stack</h2>
-        <p>AuxKit plays nice with the tools you already use. No rip and replace.</p>
+        <h2>Works with what you already have</h2>
+        <p>AuxKit isn't a platform you migrate onto. It's a storefront that sits on top of whatever you already run.</p>
       </div>
 
-      <!-- Integration Categories -->
+      <!-- Category filter -->
       <div class="integration-filters" v-motion-fade-visible>
-        <button 
-          v-for="cat in categories" 
+        <button
+          v-for="cat in categories"
           :key="cat.id"
           :class="['filter-btn', { active: activeCategory === cat.id }]"
           @click="activeCategory = cat.id"
@@ -22,8 +22,8 @@
 
       <!-- Integration Grid -->
       <div class="integrations-grid">
-        <div 
-          v-for="(integration, index) in filteredIntegrations" 
+        <div
+          v-for="(integration, index) in filteredIntegrations"
           :key="integration.name"
           class="integration-card"
           v-motion-slide-visible-bottom
@@ -44,15 +44,6 @@
               {{ feature }}
             </span>
           </div>
-          <div class="integration-footer">
-            <span :class="['integration-status', integration.status]">
-              <span class="status-dot"></span>
-              {{ integration.statusText }}
-            </span>
-            <button class="integration-action">
-              <ExternalLink :size="14" />
-            </button>
-          </div>
         </div>
       </div>
 
@@ -61,28 +52,31 @@
         <div class="api-content">
           <div class="api-text">
             <span class="badge mb-md">Developer Friendly</span>
-            <h3>Build your own integrations</h3>
-            <p>Full REST & GraphQL APIs, webhooks, and SDKs for JavaScript, Python, Go, and Ruby. Everything is documented and ready to use.</p>
+            <h3>Build your own storefront on the API</h3>
+            <p>
+              No SDK required — it's plain HTTPS and one script tag. Public endpoints are
+              read-only plus a checkout action, authorized with a Bearer <code>ak_</code> key.
+            </p>
             <div class="api-features">
               <div class="api-feature">
                 <Code :size="18" />
-                <span>RESTful API</span>
+                <span>Bearer ak_ keys</span>
               </div>
               <div class="api-feature">
-                <GitBranch :size="18" />
-                <span>GraphQL</span>
+                <Gauge :size="18" />
+                <span>60 req/min</span>
               </div>
               <div class="api-feature">
-                <Webhook :size="18" />
-                <span>Webhooks</span>
+                <ShieldCheck :size="18" />
+                <span>Domain-restricted</span>
               </div>
               <div class="api-feature">
-                <Package :size="18" />
-                <span>SDKs</span>
+                <Clock :size="18" />
+                <span>1-year expiry</span>
               </div>
             </div>
             <router-link to="/docs" class="btn btn-secondary mt-lg">
-              View API Docs
+              Read the API docs
               <ArrowRight :size="16" />
             </router-link>
           </div>
@@ -94,46 +88,14 @@
                   <span></span>
                   <span></span>
                 </div>
-                <span class="code-lang">JavaScript</span>
+                <span class="code-lang">bash</span>
               </div>
-              <pre class="code-content"><code><span class="comment">// Install: npm install @auxkit/sdk</span>
-
-<span class="keyword">import</span> { AuxKit } <span class="keyword">from</span> <span class="string">'@auxkit/sdk'</span>
-
-<span class="keyword">const</span> client = <span class="keyword">new</span> <span class="function">AuxKit</span>({
-  <span class="property">apiKey</span>: process.env.AUXKIT_KEY
-})
-
-<span class="comment">// Create a workflow</span>
-<span class="keyword">const</span> workflow = <span class="keyword">await</span> client.workflows.<span class="function">create</span>({
-  <span class="property">name</span>: <span class="string">'Onboarding Flow'</span>,
-  <span class="property">trigger</span>: <span class="string">'user.created'</span>,
-  <span class="property">steps</span>: [
-    { <span class="property">action</span>: <span class="string">'sendEmail'</span>, <span class="property">template</span>: <span class="string">'welcome'</span> },
-    { <span class="property">action</span>: <span class="string">'assignRole'</span>, <span class="property">role</span>: <span class="string">'member'</span> },
-    { <span class="property">action</span>: <span class="string">'notify'</span>, <span class="property">channel</span>: <span class="string">'#team'</span> }
-  ]
-})
-
-console.<span class="function">log</span>(<span class="string">`Created:</span> <span class="template">${workflow.id}</span><span class="string">`</span>)</code></pre>
+              <pre class="code-content"><code><span class="comment"># List published packs — no SDK, just HTTPS</span>
+<span class="function">curl</span> -H <span class="string">'Authorization: Bearer ak_YOUR_KEY'</span> \
+  https://api.example.com/public/packs</code></pre>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Partner Badge -->
-      <div class="partner-cta" v-motion-fade-visible>
-        <div class="partner-content">
-          <Blocks :size="32" />
-          <div class="partner-text">
-            <h4>Build an Integration</h4>
-            <p>Join our partner program and list your integration in the marketplace.</p>
-          </div>
-        </div>
-        <a href="#" class="btn btn-secondary">
-          Partner Program
-          <ArrowRight :size="16" />
-        </a>
       </div>
     </div>
   </section>
@@ -141,155 +103,65 @@ console.<span class="function">log</span>(<span class="string">`Created:</span> 
 
 <script setup>
 import { ref, computed } from 'vue'
-import { 
-  ExternalLink, ArrowRight, Code, GitBranch, 
-  Webhook, Package, Blocks, Database, MessageSquare,
-  CreditCard, Mail, Cloud, BarChart2, Lock
+import {
+  ArrowRight, Code, Gauge, ShieldCheck, Clock,
+  Blocks, CreditCard, Globe
 } from 'lucide-vue-next'
 
 const activeCategory = ref('all')
 
 const categories = [
   { id: 'all', name: 'All', icon: Blocks },
-  { id: 'communication', name: 'Communication', icon: MessageSquare },
-  { id: 'data', name: 'Data & Storage', icon: Database },
   { id: 'payments', name: 'Payments', icon: CreditCard },
-  { id: 'analytics', name: 'Analytics', icon: BarChart2 },
-  { id: 'security', name: 'Security', icon: Lock }
+  { id: 'website', name: 'Your website', icon: Globe },
+  { id: 'developers', name: 'Developers', icon: Code }
 ]
 
 const integrations = [
   {
-    name: 'Slack',
-    abbr: 'S',
-    category: 'Communication',
-    categoryId: 'communication',
-    color: '#4A154B',
-    description: 'Send notifications, create channels, and sync threads directly from AuxKit.',
-    features: ['Real-time sync', 'Slash commands', 'Rich formatting'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'Discord',
-    abbr: 'D',
-    category: 'Communication',
-    categoryId: 'communication',
-    color: '#5865F2',
-    description: 'Connect your community channels and automate moderation workflows.',
-    features: ['Bot integration', 'Role sync', 'Webhooks'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'PostgreSQL',
-    abbr: 'PG',
-    category: 'Data & Storage',
-    categoryId: 'data',
-    color: '#336791',
-    description: 'Direct database connections for read/write operations and data sync.',
-    features: ['Direct query', 'Schema sync', 'Triggers'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'MongoDB',
-    abbr: 'M',
-    category: 'Data & Storage',
-    categoryId: 'data',
-    color: '#00684A',
-    description: 'Native document database integration with full CRUD support.',
-    features: ['Document sync', 'Aggregations', 'Change streams'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
     name: 'Stripe',
-    abbr: '$',
+    abbr: 'S',
     category: 'Payments',
     categoryId: 'payments',
     color: '#635BFF',
-    description: 'Payment processing, subscription management, and invoice automation.',
-    features: ['Webhooks', 'Checkout', 'Subscriptions'],
-    status: 'available',
-    statusText: 'Available'
+    description: 'The only third-party integration in AuxKit. Connect your own Stripe account and sales settle directly to you — AuxKit never holds your money.',
+    features: ['Connect onboarding', 'Direct charges', 'Refund handling', 'Payouts']
   },
   {
-    name: 'Plaid',
-    abbr: 'P',
-    category: 'Payments',
-    categoryId: 'payments',
+    name: 'Static sites & GitHub Pages',
+    abbr: 'GH',
+    category: 'Your website',
+    categoryId: 'website',
+    color: '#24292e',
+    description: 'Drop the script tag into any static HTML page — anywhere you can paste a script tag.',
+    features: ['One script tag', 'No build step']
+  },
+  {
+    name: 'WordPress & site builders',
+    abbr: 'W',
+    category: 'Your website',
+    categoryId: 'website',
+    color: '#21759b',
+    description: 'Paste the same snippet into a custom HTML block on WordPress, Squarespace, Webflow, or Wix.',
+    features: ['Custom HTML block', 'No plugin required']
+  },
+  {
+    name: 'Your custom site',
+    abbr: '{ }',
+    category: 'Your website',
+    categoryId: 'website',
+    color: '#6366f1',
+    description: 'Works on any page that accepts a script tag — React, Vue, plain HTML, whatever you already run.',
+    features: ['Framework-agnostic', 'Zero dependencies']
+  },
+  {
+    name: 'REST API',
+    abbr: 'API',
+    category: 'Developers',
+    categoryId: 'developers',
     color: '#111111',
-    description: 'Bank account linking and transaction data for financial workflows.',
-    features: ['Bank linking', 'Transactions', 'Balance checks'],
-    status: 'beta',
-    statusText: 'Beta'
-  },
-  {
-    name: 'Mixpanel',
-    abbr: 'MP',
-    category: 'Analytics',
-    categoryId: 'analytics',
-    color: '#7856FF',
-    description: 'Track events and sync user properties for product analytics.',
-    features: ['Event tracking', 'User profiles', 'Funnels'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'Amplitude',
-    abbr: 'A',
-    category: 'Analytics',
-    categoryId: 'analytics',
-    color: '#1E61A0',
-    description: 'Behavioral analytics with cohort sync and event streaming.',
-    features: ['Cohorts', 'Event export', 'User sync'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'Auth0',
-    abbr: 'A0',
-    category: 'Security',
-    categoryId: 'security',
-    color: '#EB5424',
-    description: 'Enterprise SSO, user management, and role-based access control.',
-    features: ['SSO/SAML', 'User sync', 'MFA'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'Okta',
-    abbr: 'O',
-    category: 'Security',
-    categoryId: 'security',
-    color: '#007DC1',
-    description: 'Identity management with SCIM provisioning and directory sync.',
-    features: ['SCIM', 'Directory sync', 'SSO'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'AWS S3',
-    abbr: 'S3',
-    category: 'Data & Storage',
-    categoryId: 'data',
-    color: '#FF9900',
-    description: 'File storage, asset management, and automated backup workflows.',
-    features: ['File uploads', 'Presigned URLs', 'Lifecycle'],
-    status: 'available',
-    statusText: 'Available'
-  },
-  {
-    name: 'SendGrid',
-    abbr: 'SG',
-    category: 'Communication',
-    categoryId: 'communication',
-    color: '#1A82E2',
-    description: 'Transactional emails, marketing campaigns, and delivery tracking.',
-    features: ['Templates', 'Analytics', 'Inbound parse'],
-    status: 'available',
-    statusText: 'Available'
+    description: 'Read-only public endpoints plus a checkout action, authorized with a Bearer ak_ key. Build a fully custom storefront on top.',
+    features: ['60 req/min', 'Domain-restricted', '1-year expiry']
   }
 ]
 
@@ -344,7 +216,7 @@ const filteredIntegrations = computed(() => {
 /* Grid */
 .integrations-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-xl);
   margin-bottom: var(--space-4xl);
 }
@@ -406,7 +278,6 @@ const filteredIntegrations = computed(() => {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
-  margin-bottom: var(--space-lg);
 }
 
 .feature-tag {
@@ -417,56 +288,12 @@ const filteredIntegrations = computed(() => {
   color: var(--color-text-muted);
 }
 
-.integration-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.integration-status {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  font-size: 0.75rem;
-}
-
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-success);
-}
-
-.integration-status.beta .status-dot {
-  background: var(--color-warning);
-}
-
-.integration-action {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.integration-action:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
 /* API Section */
 .api-section {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
   padding: var(--space-3xl);
-  margin-bottom: var(--space-3xl);
 }
 
 .api-content {
@@ -485,6 +312,12 @@ const filteredIntegrations = computed(() => {
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: var(--space-xl);
+}
+
+.api-text code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
+  color: var(--color-accent-hover);
 }
 
 .api-features {
@@ -556,46 +389,12 @@ const filteredIntegrations = computed(() => {
 }
 
 .comment { color: #6a737d; }
-.keyword { color: #ff79c6; }
-.string { color: #f1fa8c; }
-.template { color: #8be9fd; }
 .function { color: #50fa7b; }
-.property { color: #8be9fd; }
-
-/* Partner CTA */
-.partner-cta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-xl) var(--space-2xl);
-}
-
-.partner-content {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xl);
-}
-
-.partner-content svg {
-  color: var(--color-accent);
-}
-
-.partner-text h4 {
-  font-size: 1.0625rem;
-  margin-bottom: 4px;
-}
-
-.partner-text p {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-}
+.string { color: #f1fa8c; }
 
 @media (max-width: 1200px) {
   .integrations-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -603,7 +402,7 @@ const filteredIntegrations = computed(() => {
   .api-content {
     grid-template-columns: 1fr;
   }
-  
+
   .api-preview {
     order: -1;
   }
@@ -611,32 +410,18 @@ const filteredIntegrations = computed(() => {
 
 @media (max-width: 768px) {
   .integrations-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .partner-cta {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--space-xl);
-  }
-  
-  .partner-content {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 480px) {
-  .integrations-grid {
-    grid-template-columns: 1fr;
-  }
-  
   .integration-filters {
     flex-wrap: nowrap;
     overflow-x: auto;
     justify-content: flex-start;
     padding-bottom: var(--space-sm);
   }
-  
+
   .filter-btn {
     flex-shrink: 0;
   }
