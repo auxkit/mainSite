@@ -12,7 +12,7 @@
           v-for="(feature, index) in features" 
           :key="feature.title"
           class="feature-card"
-          v-motion-slide-visible-bottom
+          v-motion-slide-visible-once-bottom
           :delay="index * 75"
         >
           <div class="feature-icon" :style="{ background: feature.color }">

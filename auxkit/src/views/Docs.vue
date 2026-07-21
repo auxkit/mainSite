@@ -3,14 +3,14 @@
     <!-- Hero -->
     <section class="page-hero">
       <div class="container">
-        <span class="badge mb-lg" v-motion-fade-visible>Documentation</span>
-        <h1 v-motion-slide-visible-bottom>Everything you need to build</h1>
-        <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
+        <span class="badge mb-lg" v-motion-fade-visible-once>Documentation</span>
+        <h1 v-motion-slide-visible-once-bottom>Everything you need to build</h1>
+        <p class="hero-desc" v-motion-slide-visible-once-bottom :delay="100">
           Comprehensive guides, API references, and tutorials to help you get the most out of AuxKit.
         </p>
 
         <!-- Search -->
-        <div class="docs-search" v-motion-fade-visible :delay="200">
+        <div class="docs-search" v-motion-fade-visible-once :delay="200">
           <Search :size="20" />
           <input type="text" placeholder="Search documentation..." />
           <kbd>⌘K</kbd>
@@ -26,7 +26,7 @@
             v-for="(link, index) in quickLinks" 
             :key="link.title"
             class="quick-link-card"
-            v-motion-slide-visible-bottom
+            v-motion-slide-visible-once-bottom
             :delay="index * 75"
           >
             <div class="link-icon" :style="{ background: link.color }">
@@ -46,7 +46,7 @@
     <section class="docs-sections section">
       <div class="container">
         <div class="docs-grid">
-          <aside class="docs-sidebar" v-motion-slide-visible-left>
+          <aside class="docs-sidebar" v-motion-slide-visible-once-left>
             <nav class="sidebar-nav">
               <div v-for="section in docSections" :key="section.title" class="nav-section">
                 <h4>{{ section.title }}</h4>
@@ -59,7 +59,7 @@
             </nav>
           </aside>
 
-          <div class="docs-main" v-motion-slide-visible-right>
+          <div class="docs-main" v-motion-slide-visible-once-right>
             <div class="docs-card">
               <h2>Getting Started</h2>
               <p>

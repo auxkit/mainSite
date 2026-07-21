@@ -7,7 +7,7 @@
         <p>See how selling direct with AuxKit compares to marketplaces and DIY setups.</p>
       </div>
 
-      <div class="comparison-table-wrapper" v-motion-fade-visible>
+      <div class="comparison-table-wrapper" v-motion-fade-visible-once>
         <div class="comparison-table">
           <!-- Header -->
           <div class="table-header">
@@ -80,7 +80,7 @@
           v-for="(diff, index) in differentiators"
           :key="diff.title"
           class="diff-card"
-          v-motion-slide-visible-bottom
+          v-motion-slide-visible-once-bottom
           :delay="index * 100"
         >
           <div class="diff-icon" :style="{ background: diff.color }">

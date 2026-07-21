@@ -14,7 +14,7 @@
           v-for="(step, index) in steps" 
           :key="step.title"
           class="step"
-          v-motion-slide-visible-bottom
+          v-motion-slide-visible-once-bottom
           :delay="index * 150"
         >
           <div class="step-number">{{ index + 1 }}</div>
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="cta-box" v-motion-fade-visible :delay="500">
+      <div class="cta-box" v-motion-fade-visible-once :delay="500">
         <div class="cta-content">
           <h3>Ready to get started?</h3>
           <p>Set up your free portfolio site, then connect Stripe when you're ready to sell.</p>

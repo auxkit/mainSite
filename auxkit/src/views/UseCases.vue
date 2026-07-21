@@ -3,9 +3,9 @@
     <!-- Hero -->
     <section class="page-hero">
       <div class="container">
-        <span class="badge mb-lg" v-motion-fade-visible>Use Cases</span>
-        <h1 v-motion-slide-visible-bottom>Built for how you<br/>actually sell sounds</h1>
-        <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
+        <span class="badge mb-lg" v-motion-fade-visible-once>Use Cases</span>
+        <h1 v-motion-slide-visible-once-bottom>Built for how you<br/>actually sell sounds</h1>
+        <p class="hero-desc" v-motion-slide-visible-once-bottom :delay="100">
           See how different kinds of sellers put AuxKit's real features to work.
         </p>
       </div>
@@ -34,7 +34,7 @@
       <div class="container">
         <Transition name="fade" mode="out-in">
           <div :key="activePersona" class="use-case-grid">
-            <div class="use-case-main" v-motion-slide-visible-left>
+            <div class="use-case-main" v-motion-slide-visible-once-left>
               <h2>{{ currentPersona.title }}</h2>
               <p class="use-case-desc">{{ currentPersona.description }}</p>
 
@@ -68,7 +68,7 @@
               </div>
             </div>
 
-            <div class="use-case-visual" v-motion-slide-visible-right>
+            <div class="use-case-visual" v-motion-slide-visible-once-right>
               <div class="workflow-diagram">
                 <div class="diagram-header">
                   <span>Example Workflow</span>
@@ -100,7 +100,7 @@
             v-for="(walkthrough, index) in walkthroughs"
             :key="walkthrough.title"
             class="case-study-card"
-            v-motion-slide-visible-bottom
+            v-motion-slide-visible-once-bottom
             :delay="index * 100"
           >
             <div class="study-header">

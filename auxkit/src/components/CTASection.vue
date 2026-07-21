@@ -4,12 +4,12 @@
       <div class="cta-gradient"></div>
     </div>
     <div class="container cta-content">
-      <h2 v-motion-slide-visible-bottom>Ready to sell your sounds direct?</h2>
-      <p v-motion-slide-visible-bottom :delay="100">
+      <h2 v-motion-slide-visible-once-bottom>Ready to sell your sounds direct?</h2>
+      <p v-motion-slide-visible-once-bottom :delay="100">
         Start with a free portfolio site and song feeds. Connect Stripe when you're ready
         to sell — AuxKit takes 10% only when you make a sale.
       </p>
-      <div class="cta-actions" v-motion-slide-visible-bottom :delay="200">
+      <div class="cta-actions" v-motion-slide-visible-once-bottom :delay="200">
         <router-link to="/pricing" class="btn btn-primary btn-lg">
           Create your free account
           <ArrowRight :size="18" />
@@ -18,7 +18,7 @@
           Read the docs
         </router-link>
       </div>
-      <p class="cta-note" v-motion-fade-visible :delay="300">
+      <p class="cta-note" v-motion-fade-visible-once :delay="300">
         <Check :size="16" />
         No credit card required
         <span class="separator">•</span>

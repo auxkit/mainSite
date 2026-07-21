@@ -5,7 +5,7 @@
         v-for="(feature, index) in features"
         :key="feature.id"
         :class="['feature-block', { reversed: index % 2 === 1 }]"
-        v-motion-fade-visible
+        v-motion-fade-visible-once
       >
         <div class="feature-content">
           <span class="feature-label" :style="{ color: feature.color }">

@@ -3,9 +3,9 @@
     <!-- Hero -->
     <section class="page-hero">
       <div class="container">
-        <span class="badge mb-lg" v-motion-fade-visible>Features</span>
-        <h1 v-motion-slide-visible-bottom>Everything you need to sell sounds direct</h1>
-        <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
+        <span class="badge mb-lg" v-motion-fade-visible-once>Features</span>
+        <h1 v-motion-slide-visible-once-bottom>Everything you need to sell sounds direct</h1>
+        <p class="hero-desc" v-motion-slide-visible-once-bottom :delay="100">
           One platform: your portfolio, your storefront, your payouts.
         </p>
       </div>
@@ -23,7 +23,7 @@
           <p>Static mocks of the real dashboard, widget, and buyer flow — pick a feature to preview it.</p>
         </div>
 
-        <div class="demo-container" v-motion-fade-visible>
+        <div class="demo-container" v-motion-fade-visible-once>
           <div class="demo-sidebar">
             <div
               v-for="(module, index) in demoModules"
@@ -153,7 +153,7 @@
     <!-- No integrations needed -->
     <section class="integrations-section section">
       <div class="container">
-        <div class="integrations-strip" v-motion-fade-visible>
+        <div class="integrations-strip" v-motion-fade-visible-once>
           <div class="strip-icon">
             <Code :size="22" />
           </div>

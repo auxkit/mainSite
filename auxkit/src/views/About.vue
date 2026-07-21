@@ -3,9 +3,9 @@
     <!-- Hero -->
     <section class="page-hero">
       <div class="container">
-        <span class="badge mb-lg" v-motion-fade-visible>About AuxKit</span>
-        <h1 v-motion-slide-visible-bottom>Your storefront.<br/>Your audience. Your Stripe account.</h1>
-        <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
+        <span class="badge mb-lg" v-motion-fade-visible-once>About AuxKit</span>
+        <h1 v-motion-slide-visible-once-bottom>Your storefront.<br/>Your audience. Your Stripe account.</h1>
+        <p class="hero-desc" v-motion-slide-visible-once-bottom :delay="100">
           A small team of musicians building the storefront layer we wished existed when we started selling our own sounds.
         </p>
       </div>
@@ -15,7 +15,7 @@
     <section class="mission-section section">
       <div class="container">
         <div class="mission-grid">
-          <div class="mission-content" v-motion-slide-visible-left>
+          <div class="mission-content" v-motion-slide-visible-once-left>
             <h2>Our Mission</h2>
             <p class="mission-statement">
               "Musicians should own their storefront, their audience, and their income."
@@ -30,7 +30,7 @@
               account. We take a flat 10% only when a pack sells.
             </p>
           </div>
-          <div class="mission-visual" v-motion-slide-visible-right>
+          <div class="mission-visual" v-motion-slide-visible-once-right>
             <div class="visual-box">
               <div class="visual-element"></div>
               <div class="visual-element"></div>
@@ -56,7 +56,7 @@
             v-for="(principle, index) in principles"
             :key="principle.title"
             class="principle-card"
-            v-motion-slide-visible-bottom
+            v-motion-slide-visible-once-bottom
             :delay="index * 100"
           >
             <div class="principle-icon">
@@ -72,7 +72,7 @@
     <!-- Story -->
     <section class="story-section section">
       <div class="container container-narrow">
-        <div class="story-content" v-motion-fade-visible>
+        <div class="story-content" v-motion-fade-visible-once>
           <h2>The AuxKit Story</h2>
           <p>
             AuxKit started with a simple frustration: selling a sample pack from your own
@@ -96,7 +96,7 @@
           </p>
         </div>
 
-        <div class="team-chips" v-motion-fade-visible>
+        <div class="team-chips" v-motion-fade-visible-once>
           <span v-for="chip in teamChips" :key="chip" class="team-chip">{{ chip }}</span>
         </div>
       </div>
@@ -106,7 +106,7 @@
     <section class="values-section section">
       <div class="container">
         <div class="values-grid">
-          <div class="values-header" v-motion-slide-visible-left>
+          <div class="values-header" v-motion-slide-visible-once-left>
             <span class="badge mb-lg">Values</span>
             <h2>What we commit to</h2>
             <p>
@@ -114,7 +114,7 @@
               things you can check against the product.
             </p>
           </div>
-          <div class="values-list" v-motion-slide-visible-right>
+          <div class="values-list" v-motion-slide-visible-once-right>
             <div v-for="value in values" :key="value.title" class="value-item">
               <h4>{{ value.title }}</h4>
               <p>{{ value.description }}</p>
@@ -127,7 +127,7 @@
     <!-- Get in touch -->
     <section class="careers-section section">
       <div class="container">
-        <div class="careers-box" v-motion-fade-visible>
+        <div class="careers-box" v-motion-fade-visible-once>
           <div class="careers-content">
             <h2>Get in touch</h2>
             <p>

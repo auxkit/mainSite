@@ -8,7 +8,7 @@
       </div>
 
       <!-- Main Carousel -->
-      <div class="carousel-container" v-motion-fade-visible>
+      <div class="carousel-container" v-motion-fade-visible-once>
         <button class="carousel-btn prev" @click="prevSlide" :disabled="currentIndex === 0">
           <ChevronLeft :size="24" />
         </button>
@@ -52,7 +52,7 @@
       </div>
 
       <!-- Fact Chips -->
-      <div class="stats-bar" v-motion-fade-visible>
+      <div class="stats-bar" v-motion-fade-visible-once>
         <div class="stat-item" v-for="fact in facts" :key="fact">
           <span class="stat-value">{{ fact }}</span>
         </div>

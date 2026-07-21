@@ -7,7 +7,7 @@
         <p>No subscriptions, no seats, no add-ons. Just a flat 10% platform fee.</p>
       </div>
 
-      <div class="calculator-container" v-motion-fade-visible>
+      <div class="calculator-container" v-motion-fade-visible-once>
         <div class="calculator-main">
           <!-- Pack price -->
           <div class="calc-section">

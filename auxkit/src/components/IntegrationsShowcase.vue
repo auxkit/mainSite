@@ -8,7 +8,7 @@
       </div>
 
       <!-- Category filter -->
-      <div class="integration-filters" v-motion-fade-visible>
+      <div class="integration-filters" v-motion-fade-visible-once>
         <button
           v-for="cat in categories"
           :key="cat.id"
@@ -26,7 +26,7 @@
           v-for="(integration, index) in filteredIntegrations"
           :key="integration.name"
           class="integration-card"
-          v-motion-slide-visible-bottom
+          v-motion-slide-visible-once-bottom
           :delay="index * 50"
         >
           <div class="integration-header">
@@ -48,7 +48,7 @@
       </div>
 
       <!-- API Section -->
-      <div class="api-section" v-motion-fade-visible>
+      <div class="api-section" v-motion-fade-visible-once>
         <div class="api-content">
           <div class="api-text">
             <span class="badge mb-md">Developer Friendly</span>

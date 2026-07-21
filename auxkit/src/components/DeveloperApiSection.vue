@@ -2,7 +2,7 @@
   <section id="developer-api" class="dev-api section grid-texture">
     <div class="container">
       <div class="dev-api__grid">
-        <div class="dev-api__intro" v-motion-slide-visible-left>
+        <div class="dev-api__intro" v-motion-slide-visible-once-left>
           <SectionLabel>Developer API and Embed Widget</SectionLabel>
           <h2>Build sample-pack commerce into your own site</h2>
           <p>
@@ -58,7 +58,7 @@
           </router-link>
         </div>
 
-        <div class="dev-api__snippet" v-motion-slide-visible-right>
+        <div class="dev-api__snippet" v-motion-slide-visible-once-right>
           <EmbedCodeSnippet />
         </div>
       </div>

@@ -3,9 +3,9 @@
     <!-- Hero -->
     <section class="page-hero">
       <div class="container">
-        <span class="badge mb-lg" v-motion-fade-visible>Pricing</span>
-        <h1 v-motion-slide-visible-bottom>Simple, transparent pricing</h1>
-        <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
+        <span class="badge mb-lg" v-motion-fade-visible-once>Pricing</span>
+        <h1 v-motion-slide-visible-once-bottom>Simple, transparent pricing</h1>
+        <p class="hero-desc" v-motion-slide-visible-once-bottom :delay="100">
           No subscription. Free forever for your portfolio — a flat 10% only when a pack sells.
         </p>
       </div>
@@ -20,7 +20,7 @@
             :key="plan.name"
             class="pricing-card"
             :class="{ featured: plan.featured }"
-            v-motion-slide-visible-bottom
+            v-motion-slide-visible-once-bottom
             :delay="index * 100"
           >
             <div v-if="plan.featured" class="featured-badge">Most Popular</div>
@@ -101,7 +101,7 @@
     <!-- Why We Price This Way -->
     <section class="pricing-philosophy section">
       <div class="container container-narrow">
-        <div class="philosophy-content" v-motion-fade-visible>
+        <div class="philosophy-content" v-motion-fade-visible-once>
           <h2>Why we price this way</h2>
           <p>
             We only make money when you do. No seats, no tiers, no subscription — a flat 10% when a pack sells, and Stripe's processing fee. On a €20 pack you keep about €17.45.

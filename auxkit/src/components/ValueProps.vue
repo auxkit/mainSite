@@ -12,7 +12,7 @@
           v-for="(prop, index) in valueProps" 
           :key="prop.title"
           class="value-card"
-          v-motion-slide-visible-bottom
+          v-motion-slide-visible-once-bottom
           :delay="index * 100"
         >
           <div class="value-icon">

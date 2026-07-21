@@ -7,7 +7,7 @@
         <p>This is what the widget renders on your site. Click through the tabs to explore it.</p>
       </div>
 
-      <div class="demo-wrapper" v-motion-fade-visible>
+      <div class="demo-wrapper" v-motion-fade-visible-once>
         <!-- Real embed snippet -->
         <div class="embed-callout">
           <div class="embed-callout-header">

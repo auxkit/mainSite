@@ -2,12 +2,12 @@
   <section class="stats section">
     <div class="container">
       <p class="stats-intro">No usage theater — just how the platform works.</p>
-      <div class="stat-strip stats-strip-grid" v-motion-fade-visible>
+      <div class="stat-strip stats-strip-grid" v-motion-fade-visible-once>
         <div
           v-for="(stat, index) in stats"
           :key="stat.label"
           class="stat-strip__item"
-          v-motion-fade-visible
+          v-motion-fade-visible-once
           :delay="index * 80"
         >
           <div class="stat-strip__value">

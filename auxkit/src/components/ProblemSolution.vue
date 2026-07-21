@@ -3,7 +3,7 @@
     <div class="container">
       <div class="ps-grid">
         <!-- Problem Side -->
-        <div class="ps-problems" v-motion-slide-visible-left>
+        <div class="ps-problems" v-motion-slide-visible-once-left>
           <span class="badge badge-problem mb-lg">The Problem</span>
           <h2>Sound familiar?</h2>
           <div class="problem-list">
@@ -17,7 +17,7 @@
         </div>
 
         <!-- Solution Side -->
-        <div class="ps-solution" v-motion-slide-visible-right>
+        <div class="ps-solution" v-motion-slide-visible-once-right>
           <span class="badge mb-lg">The Solution</span>
           <h2 class="gradient-text">AuxKit is the storefront layer for your own site</h2>
           <p class="solution-quote">

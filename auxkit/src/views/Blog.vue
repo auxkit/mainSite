@@ -3,9 +3,9 @@
     <!-- Hero -->
     <section class="page-hero">
       <div class="container">
-        <span class="badge mb-lg" v-motion-fade-visible>Blog</span>
-        <h1 v-motion-slide-visible-bottom>Insights & Updates</h1>
-        <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
+        <span class="badge mb-lg" v-motion-fade-visible-once>Blog</span>
+        <h1 v-motion-slide-visible-once-bottom>Insights & Updates</h1>
+        <p class="hero-desc" v-motion-slide-visible-once-bottom :delay="100">
           Notes on selling sample packs direct, pricing, delivery, and the embed widget.
         </p>
       </div>
@@ -14,7 +14,7 @@
     <!-- Featured Post -->
     <section class="featured-section section">
       <div class="container">
-        <div class="featured-post" v-motion-fade-visible>
+        <div class="featured-post" v-motion-fade-visible-once>
           <div class="featured-image">
             <div class="image-placeholder">
               <Sparkles :size="48" />
@@ -61,7 +61,7 @@
             v-for="(post, index) in filteredPosts" 
             :key="post.title"
             class="blog-card"
-            v-motion-slide-visible-bottom
+            v-motion-slide-visible-once-bottom
             :delay="index * 75"
           >
             <div class="card-image">
@@ -97,7 +97,7 @@
     <!-- Newsletter -->
     <section class="newsletter-section section">
       <div class="container container-narrow">
-        <div class="newsletter-box" v-motion-fade-visible>
+        <div class="newsletter-box" v-motion-fade-visible-once>
           <h2>Stay in the loop</h2>
           <p>
             Get the latest articles, product updates, and insights delivered to your inbox.

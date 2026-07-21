@@ -3,22 +3,22 @@
     <div class="container">
       <div class="section-header pack-commerce__header">
         <SectionLabel>Sample Pack Commerce</SectionLabel>
-        <h2 v-motion-slide-visible-bottom>
+        <h2 v-motion-slide-visible-once-bottom>
           Sell sample packs, straight from your own site
         </h2>
-        <p v-motion-slide-visible-bottom :delay="100">
+        <p v-motion-slide-visible-once-bottom :delay="100">
           Upload your packs, publish a storefront, and embed it anywhere with a script tag.
           AuxKit handles previews, checkout, and payouts—you keep your own domain and your own audience.
         </p>
         <Badge variant="accent" class="mt-lg">New</Badge>
       </div>
 
-      <div class="grid grid-3 pack-commerce__grid" v-motion-fade-visible>
+      <div class="grid grid-3 pack-commerce__grid" v-motion-fade-visible-once>
         <div
           v-for="(feature, index) in features"
           :key="feature.title"
           class="card-flat"
-          v-motion-slide-visible-bottom
+          v-motion-slide-visible-once-bottom
           :delay="index * 75"
         >
           <div class="icon-wrapper mb-lg">
@@ -34,13 +34,13 @@
     <div class="container">
       <div class="pack-story">
         <SectionLabel>How selling works</SectionLabel>
-        <h3 v-motion-slide-visible-bottom>From upload to payout</h3>
-        <div class="pack-story__grid" v-motion-fade-visible>
+        <h3 v-motion-slide-visible-once-bottom>From upload to payout</h3>
+        <div class="pack-story__grid" v-motion-fade-visible-once>
           <div
             v-for="(step, index) in sellerSteps"
             :key="step.title"
             class="card-flat pack-story__step"
-            v-motion-slide-visible-bottom
+            v-motion-slide-visible-once-bottom
             :delay="index * 60"
           >
             <span class="pack-story__number">{{ index + 1 }}</span>
@@ -54,13 +54,13 @@
       <!-- Buyer story -->
       <div class="pack-story">
         <SectionLabel>How buying works</SectionLabel>
-        <h3 v-motion-slide-visible-bottom>From preview to download</h3>
-        <div class="pack-story__grid" v-motion-fade-visible>
+        <h3 v-motion-slide-visible-once-bottom>From preview to download</h3>
+        <div class="pack-story__grid" v-motion-fade-visible-once>
           <div
             v-for="(step, index) in buyerSteps"
             :key="step.title"
             class="card-flat pack-story__step"
-            v-motion-slide-visible-bottom
+            v-motion-slide-visible-once-bottom
             :delay="index * 60"
           >
             <span class="pack-story__number">{{ index + 1 }}</span>

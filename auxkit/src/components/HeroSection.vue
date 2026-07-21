@@ -21,24 +21,24 @@
     
     <div class="container hero-content">
       <!-- Announcement Banner -->
-      <a href="#developer-api" class="announcement-banner" v-motion-fade-visible>
+      <a href="#developer-api" class="announcement-banner" v-motion-fade-visible-once>
         <span class="announcement-badge">New</span>
         <span class="announcement-text">Embed widget — sell packs on any website</span>
         <ArrowRight :size="16" />
       </a>
 
-      <h1 class="hero-title" v-motion-slide-visible-bottom>
+      <h1 class="hero-title" v-motion-slide-visible-once-bottom>
         <span class="title-line">Sell your sample packs</span>
         <span class="title-line gradient-animated">from your own website.</span>
       </h1>
 
-      <p class="hero-description" v-motion-slide-visible-bottom :delay="100">
+      <p class="hero-description" v-motion-slide-visible-once-bottom :delay="100">
         AuxKit gives independent musicians a hosted portfolio site, song feeds, and a
         direct-to-fan sample pack storefront — Stripe checkout, secure delivery, and an
         embed widget that drops into any page with <span class="highlight">one script tag</span>.
       </p>
 
-      <div class="hero-actions" v-motion-slide-visible-bottom :delay="200">
+      <div class="hero-actions" v-motion-slide-visible-once-bottom :delay="200">
         <router-link to="/pricing" class="btn btn-primary btn-lg">
           <span>Start selling free</span>
           <ArrowRight :size="18" />
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Trust Indicators -->
-      <div class="trust-indicators" v-motion-fade-visible :delay="300">
+      <div class="trust-indicators" v-motion-fade-visible-once :delay="300">
         <div class="trust-item">
           <Check :size="16" />
           <span>No credit card required to start</span>
@@ -66,7 +66,7 @@
       </div>
 
       <!-- Interactive Module Visualization -->
-      <div class="hero-visualization" v-motion-fade-visible :delay="400">
+      <div class="hero-visualization" v-motion-fade-visible-once :delay="400">
         <div class="viz-container">
           <!-- Central Hub -->
           <div class="central-hub">
@@ -136,7 +136,7 @@
       </div>
 
       <!-- Embed Anywhere Strip -->
-      <div class="hero-logos" v-motion-fade-visible :delay="500">
+      <div class="hero-logos" v-motion-fade-visible-once :delay="500">
         <span class="logos-label">The embed widget works anywhere you can paste a script tag</span>
         <div class="logos-grid">
           <div v-for="platform in platforms" :key="platform" class="logo-item">
