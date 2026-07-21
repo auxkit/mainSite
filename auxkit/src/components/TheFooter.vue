@@ -15,7 +15,7 @@
             </div>
             <span class="logo-text">AuxKit</span>
           </router-link>
-          <p class="footer-tagline">Modular tools for modern teams.</p>
+          <p class="footer-tagline">Sell sample packs from your own site. Portfolio, storefront, and payouts for independent musicians.</p>
           <div class="social-links">
             <a href="#" class="social-link" aria-label="Twitter">
               <TwitterIcon :size="20" />
@@ -33,11 +33,11 @@
         <div class="footer-section">
           <h4>Product</h4>
           <ul>
-            <li><router-link to="/features">Features</router-link></li>
+            <li><router-link to="/features">Portfolio Sites</router-link></li>
+            <li><router-link to="/features">Sample Packs</router-link></li>
+            <li><router-link to="/docs">Embed Widget</router-link></li>
+            <li><router-link to="/docs">Public API</router-link></li>
             <li><router-link to="/pricing">Pricing</router-link></li>
-            <li><router-link to="/use-cases">Use Cases</router-link></li>
-            <li><a href="#">Integrations</a></li>
-            <li><a href="#">Changelog</a></li>
           </ul>
         </div>
 
@@ -45,11 +45,9 @@
         <div class="footer-section">
           <h4>Resources</h4>
           <ul>
-            <li><router-link to="/docs">Documentation</router-link></li>
-            <li><a href="#">API Reference</a></li>
+            <li><router-link to="/docs">Docs</router-link></li>
             <li><router-link to="/blog">Blog</router-link></li>
-            <li><a href="#">Tutorials</a></li>
-            <li><a href="#">Community</a></li>
+            <li><router-link to="/docs">API Reference</router-link></li>
           </ul>
         </div>
 
