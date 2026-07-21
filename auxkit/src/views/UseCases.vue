@@ -4,44 +4,44 @@
     <section class="page-hero">
       <div class="container">
         <span class="badge mb-lg" v-motion-fade-visible>Use Cases</span>
-        <h1 v-motion-slide-visible-bottom>Built for how you<br/>actually work</h1>
+        <h1 v-motion-slide-visible-bottom>Built for how you<br/>actually sell sounds</h1>
         <p class="hero-desc" v-motion-slide-visible-bottom :delay="100">
-          See how teams across industries use AuxKit to eliminate chaos and ship faster.
+          See how different kinds of sellers put AuxKit's real features to work.
         </p>
       </div>
     </section>
 
-    <!-- Industry Filter -->
+    <!-- Persona Filter -->
     <section class="filter-section">
       <div class="container">
         <div class="filter-tabs">
-          <button 
-            v-for="industry in industries" 
-            :key="industry.id"
+          <button
+            v-for="persona in personas"
+            :key="persona.id"
             class="filter-tab"
-            :class="{ active: activeIndustry === industry.id }"
-            @click="activeIndustry = industry.id"
+            :class="{ active: activePersona === persona.id }"
+            @click="activePersona = persona.id"
           >
-            <component :is="industry.icon" :size="18" />
-            {{ industry.name }}
+            <component :is="persona.icon" :size="18" />
+            {{ persona.name }}
           </button>
         </div>
       </div>
     </section>
 
-    <!-- Use Case Content -->
+    <!-- Persona Content -->
     <section class="use-case-content section">
       <div class="container">
         <Transition name="fade" mode="out-in">
-          <div :key="activeIndustry" class="use-case-grid">
+          <div :key="activePersona" class="use-case-grid">
             <div class="use-case-main" v-motion-slide-visible-left>
-              <h2>{{ currentIndustry.title }}</h2>
-              <p class="use-case-desc">{{ currentIndustry.description }}</p>
+              <h2>{{ currentPersona.title }}</h2>
+              <p class="use-case-desc">{{ currentPersona.description }}</p>
 
               <div class="pain-points">
                 <h3>Common Pain Points</h3>
                 <ul>
-                  <li v-for="pain in currentIndustry.painPoints" :key="pain">
+                  <li v-for="pain in currentPersona.painPoints" :key="pain">
                     <X :size="16" />
                     {{ pain }}
                   </li>
@@ -51,7 +51,7 @@
               <div class="solution-points">
                 <h3>How AuxKit Helps</h3>
                 <ul>
-                  <li v-for="solution in currentIndustry.solutions" :key="solution">
+                  <li v-for="solution in currentPersona.solutions" :key="solution">
                     <Check :size="16" />
                     {{ solution }}
                   </li>
@@ -59,9 +59,9 @@
               </div>
 
               <div class="recommended-modules">
-                <h3>Recommended Modules</h3>
+                <h3>Relevant Features</h3>
                 <div class="module-tags">
-                  <span v-for="mod in currentIndustry.modules" :key="mod" class="module-tag">
+                  <span v-for="mod in currentPersona.features" :key="mod" class="module-tag">
                     {{ mod }}
                   </span>
                 </div>
@@ -74,18 +74,10 @@
                   <span>Example Workflow</span>
                 </div>
                 <div class="diagram-content">
-                  <div v-for="(step, index) in currentIndustry.workflowSteps" :key="index" class="diagram-step">
+                  <div v-for="(step, index) in currentPersona.workflowSteps" :key="index" class="diagram-step">
                     <div class="step-node">{{ index + 1 }}</div>
                     <span>{{ step }}</span>
                   </div>
-                </div>
-              </div>
-
-              <div class="quote-card" v-if="currentIndustry.quote">
-                <p>"{{ currentIndustry.quote.text }}"</p>
-                <div class="quote-author">
-                  <span class="author-name">{{ currentIndustry.quote.author }}</span>
-                  <span class="author-role">{{ currentIndustry.quote.role }}</span>
                 </div>
               </div>
             </div>
@@ -94,41 +86,36 @@
       </div>
     </section>
 
-    <!-- Case Studies -->
+    <!-- Example Walkthroughs -->
     <section class="case-studies section">
       <div class="container">
         <div class="section-header">
-          <span class="badge mb-lg">Case Studies</span>
-          <h2>Real results from real teams</h2>
-          <p>See the measurable impact AuxKit has made for companies like yours.</p>
+          <span class="badge mb-lg">Example Walkthroughs</span>
+          <h2>How a sale actually plays out</h2>
+          <p>Illustrative scenarios showing the real product flow end to end — no fabricated customers, no invented metrics.</p>
         </div>
 
         <div class="grid grid-3">
-          <div 
-            v-for="(study, index) in caseStudies" 
-            :key="study.company"
+          <div
+            v-for="(walkthrough, index) in walkthroughs"
+            :key="walkthrough.title"
             class="case-study-card"
             v-motion-slide-visible-bottom
             :delay="index * 100"
           >
             <div class="study-header">
-              <div class="company-logo">{{ study.company.charAt(0) }}</div>
+              <div class="study-icon">
+                <component :is="walkthrough.icon" :size="22" />
+              </div>
               <div>
-                <h4>{{ study.company }}</h4>
-                <span>{{ study.industry }}</span>
+                <span class="study-kicker">Example scenario</span>
+                <h4>{{ walkthrough.title }}</h4>
               </div>
             </div>
-            <p class="study-summary">{{ study.summary }}</p>
-            <div class="study-metrics">
-              <div v-for="metric in study.metrics" :key="metric.label" class="metric">
-                <span class="metric-value">{{ metric.value }}</span>
-                <span class="metric-label">{{ metric.label }}</span>
-              </div>
-            </div>
-            <a href="#" class="btn btn-ghost">
-              Read Case Study
-              <ArrowRight :size="16" />
-            </a>
+            <p class="study-summary">{{ walkthrough.summary }}</p>
+            <ol class="study-steps">
+              <li v-for="step in walkthrough.steps" :key="step">{{ step }}</li>
+            </ol>
           </div>
         </div>
       </div>
@@ -140,168 +127,150 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { 
-  Code2, Settings2, Palette, Headphones, BarChart2,
-  X, Check, ArrowRight 
+import {
+  Disc3, Code, Building2, Mic, Terminal,
+  X, Check, Github, Mail, RefreshCw
 } from 'lucide-vue-next'
 import CTASection from '../components/CTASection.vue'
 
-const activeIndustry = ref('product')
+const activePersona = ref('beatmakers')
 
-const industries = [
-  { id: 'product', name: 'Product & Engineering', icon: Code2 },
-  { id: 'operations', name: 'Operations', icon: Settings2 },
-  { id: 'creative', name: 'Creative/Marketing', icon: Palette },
-  { id: 'support', name: 'Customer Support', icon: Headphones },
-  { id: 'leadership', name: 'Leadership', icon: BarChart2 }
+const personas = [
+  { id: 'beatmakers', name: 'Beatmakers & Producers', icon: Disc3 },
+  { id: 'sound-designers', name: 'Sound Designers', icon: Code },
+  { id: 'labels', name: 'Small Labels & Collectives', icon: Building2 },
+  { id: 'artists', name: 'Artists & Bands', icon: Mic },
+  { id: 'developers', name: 'Developers & Web Designers', icon: Terminal }
 ]
 
-const industryData = {
-  product: {
-    title: 'Product & Engineering',
-    description: 'Ship faster with workflows that connect planning, development, and release.',
+const personaData = {
+  beatmakers: {
+    title: 'Beatmakers & Producers',
+    description: 'Sell drum kits and loop packs straight from your beat store — every sample previewable, with BPM and key shown up front.',
     painPoints: [
-      'Disconnected tools for planning, dev, and tracking',
-      'Manual status updates across systems',
-      'Lack of visibility into sprint progress',
-      'Context switching between multiple apps'
+      'Marketplace commissions eat into every sale',
+      'Buyers can\'t hear what they\'re buying before checkout',
+      'No BPM/key info means more refund requests',
+      'Lost-download emails turn into support chats'
     ],
     solutions: [
-      'Unified workspace for specs, tasks, and code',
-      'Automated status syncing with GitHub/GitLab',
-      'Real-time sprint dashboards',
-      'Integration with your entire dev stack'
+      'Auto-generated preview for every sample you upload',
+      'BPM/key/duration metadata shown per sample',
+      'Flat 10% fee instead of marketplace commission',
+      'Buyers self-serve resends instead of emailing you'
     ],
-    modules: ['Workflow Engine', 'Task Manager', 'Integrations Hub', 'Metrics'],
-    workflowSteps: ['Spec Created', 'Task Assigned', 'In Development', 'Code Review', 'Deployed'],
-    quote: {
-      text: 'We cut our sprint planning time in half and finally have visibility into what\'s actually shipping.',
-      author: 'Alex Kim',
-      role: 'Engineering Manager'
-    }
+    features: ['Pack Manager', 'Audio Previews', 'Stripe Payouts', 'Secure Delivery'],
+    workflowSteps: ['Upload kit samples', 'Set price + artwork', 'Publish pack', 'Buyer previews + buys', 'Buyer downloads via email link']
   },
-  operations: {
-    title: 'Operations',
-    description: 'Streamline processes, automate handoffs, and keep everything running smoothly.',
+  'sound-designers': {
+    title: 'Sound Designers',
+    description: 'Drop your pack store into your existing portfolio site with the embed widget — no rebuild, no separate storefront to maintain.',
     painPoints: [
-      'Manual processes that eat up hours',
-      'No visibility into bottlenecks',
-      'Inconsistent handoffs between teams',
-      'Scattered documentation and SOPs'
+      'Existing portfolio has nowhere to sell packs',
+      'Don\'t want to stand up a whole separate storefront',
+      'Need pricing and checkout to just work on their own site',
+      'Can\'t justify a full e-commerce build for a few packs'
     ],
     solutions: [
-      'Automated workflows for repetitive tasks',
-      'Real-time process monitoring',
-      'Standardized handoff templates',
-      'Centralized knowledge base'
+      'Single script tag renders a full storefront on any page',
+      'Grid view or single-pack detail via data-pack',
+      'Prices formatted automatically per currency',
+      'Zero runtime dependencies, no SDK to install'
     ],
-    modules: ['Automations', 'Workflow Engine', 'Data Layer', 'Metrics'],
-    workflowSteps: ['Request Received', 'Auto-Routed', 'Processing', 'Review', 'Complete'],
-    quote: {
-      text: 'AuxKit helped us automate 80% of our manual processes. Our team can finally focus on strategic work.',
-      author: 'Maria Santos',
-      role: 'Head of Operations'
-    }
+    features: ['Embed Widget', 'Pack Manager', 'Audio Previews'],
+    workflowSteps: ['Create pack in dashboard', 'Copy embed script tag', 'Paste into portfolio site', 'Widget renders storefront', 'Checkout redirects to Stripe']
   },
-  creative: {
-    title: 'Creative & Marketing',
-    description: 'Manage campaigns, creative assets, and approvals without the chaos.',
+  labels: {
+    title: 'Small Labels & Collectives',
+    description: 'Publish the whole catalogue under one account, and use the public API to power a custom storefront if you outgrow the widget.',
     painPoints: [
-      'Assets scattered across drives and channels',
-      'Unclear approval workflows',
-      'Missed deadlines due to poor visibility',
-      'Difficulty tracking campaign performance'
+      'Multiple producers, one storefront to manage',
+      'Need more control than a drop-in widget gives',
+      'Want the catalogue to live somewhere they control',
+      'Manual sample metadata entry across many packs'
     ],
     solutions: [
-      'Centralized asset management',
-      'Clear approval chains with notifications',
-      'Campaign calendars with dependencies',
-      'Integrated performance dashboards'
+      'One account, one pack catalogue, published together',
+      'Public API (Bearer ak_ keys) for a fully custom storefront',
+      'Domain-restricted keys keep the API safe to expose client-side',
+      '60 req/min public rate limit is enough for typical catalogue browsing'
     ],
-    modules: ['Task Manager', 'Data Layer', 'Automations', 'Metrics'],
-    workflowSteps: ['Brief Created', 'In Design', 'Review', 'Approved', 'Published'],
-    quote: {
-      text: 'Finally, our creative team and stakeholders are on the same page. Approvals that took days now take hours.',
-      author: 'Jordan Lee',
-      role: 'Creative Director'
-    }
+    features: ['Pack Manager', 'Public API', 'Embed Widget'],
+    workflowSteps: ['Create API key', 'Restrict key to your domain', 'Call GET /public/packs', 'Render your own catalogue UI', 'POST checkout on Buy click']
   },
-  support: {
-    title: 'Customer Support',
-    description: 'Resolve issues faster with connected workflows and automated escalations.',
+  artists: {
+    title: 'Artists & Bands',
+    description: 'Start with a free portfolio site and song feeds — add commerce later, whenever you actually have packs to sell.',
     painPoints: [
-      'Tickets falling through the cracks',
-      'No visibility into resolution trends',
-      'Manual escalation processes',
-      'Disconnected from product feedback'
+      'Don\'t need a store yet, just somewhere to point fans',
+      'Free tiers elsewhere come with heavy upsell pressure',
+      'Don\'t want to pay for storage they\'re not using',
+      'Want to add selling later without switching platforms'
     ],
     solutions: [
-      'Smart ticket routing and prioritization',
-      'Automated escalation rules',
-      'Real-time support dashboards',
-      'Direct integration with product backlog'
+      'Portfolio site and song feeds are free, no time limit',
+      '3 GB of storage included on the free tier',
+      'No credit card required to get started',
+      'Connect Stripe later to unlock packs, same account'
     ],
-    modules: ['Automations', 'Integrations Hub', 'Workflow Engine', 'Metrics'],
-    workflowSteps: ['Ticket Created', 'Auto-Categorized', 'Assigned', 'Resolved', 'Feedback Logged'],
-    quote: {
-      text: 'Response times dropped 40% and we finally have data to drive our product improvements.',
-      author: 'Chris Parker',
-      role: 'Support Lead'
-    }
+    features: ['Portfolio Sites & Song Feeds'],
+    workflowSteps: ['Create free account', 'Set up portfolio site', 'Add songs to your feed', 'Share your page', 'Connect Stripe when ready to sell']
   },
-  leadership: {
-    title: 'Leadership',
-    description: 'Get the visibility you need without micromanaging. Make decisions with real data.',
+  developers: {
+    title: 'Developers & Web Designers',
+    description: 'Build client storefronts on the REST API and embed widget — domain-restricted keys keep embeds safe to ship on someone else\'s site.',
     painPoints: [
-      'No single source of truth',
-      'Status updates require meetings',
-      'Difficult to identify blockers early',
-      'Reports are always outdated'
+      'Clients want a storefront, not a custom checkout build',
+      'Handing out an API key client-side feels risky',
+      'Need predictable rate limits to plan around',
+      'Don\'t want to maintain a payments integration themselves'
     ],
     solutions: [
-      'Executive dashboards updated in real-time',
-      'Automated weekly/monthly reports',
-      'Early warning system for blockers',
-      'Cross-team visibility'
+      'Public API is read-only + checkout, scoped by API key',
+      'Keys are domain-restricted via Origin/Referer match',
+      '60 req/min per key, documented and predictable',
+      'Stripe Checkout handles payment — no PCI surface for you to own'
     ],
-    modules: ['Metrics', 'Data Layer', 'Automations'],
-    workflowSteps: ['Data Collected', 'Aggregated', 'Dashboard Updated', 'Insights Generated'],
-    quote: {
-      text: 'I finally have a clear picture of what\'s happening across all teams without asking for status updates.',
-      author: 'Sarah Thompson',
-      role: 'VP of Product'
-    }
+    features: ['Public API', 'Embed Widget'],
+    workflowSteps: ['Client creates AuxKit account', 'Generate a domain-restricted API key', 'Drop in the embed widget (or call the API directly)', 'Client manages packs from their dashboard']
   }
 }
 
-const currentIndustry = computed(() => industryData[activeIndustry.value])
+const currentPersona = computed(() => personaData[activePersona.value])
 
-const caseStudies = [
+const walkthroughs = [
   {
-    company: 'Acme Corp',
-    industry: 'SaaS',
-    summary: 'Reduced project delivery time by 40% by consolidating tools and automating handoffs.',
-    metrics: [
-      { value: '40%', label: 'Faster Delivery' },
-      { value: '3→1', label: 'Tools Consolidated' }
+    icon: Github,
+    title: 'Publish a kit, embed it on GitHub Pages',
+    summary: 'A producer uploads a drum kit, sets a price, and publishes it. They copy the embed script tag from their dashboard and paste it into a static GitHub Pages site.',
+    steps: [
+      'Upload samples, artwork, and a preview',
+      'Publish — bundle build kicks off automatically',
+      'Generate an API key restricted to their GitHub Pages domain',
+      'Paste the script tag into their site\'s HTML',
+      'Storefront renders with previews and Buy buttons'
     ]
   },
   {
-    company: 'TechStart',
-    industry: 'Startup',
-    summary: 'Scaled from 10 to 50 employees without adding ops overhead using AuxKit automations.',
-    metrics: [
-      { value: '5x', label: 'Team Growth' },
-      { value: '0', label: 'Added Ops Hires' }
+    icon: Mail,
+    title: 'A buyer loses their download email',
+    summary: 'A buyer bought a pack last week, deleted the email by accident, and can\'t find their download link.',
+    steps: [
+      'Buyer submits their email + the pack on the resend form',
+      'Resend is rate-limited to 5/hour per email+pack to prevent abuse',
+      'If it\'s still within 5 downloads / 7 days, the link is re-sent',
+      'No support ticket required on either side'
     ]
   },
   {
-    company: 'Enterprise Co',
-    industry: 'Enterprise',
-    summary: 'Achieved SOC 2 compliance and cut audit prep time from weeks to days.',
-    metrics: [
-      { value: '85%', label: 'Audit Time Saved' },
-      { value: 'SOC 2', label: 'Compliant' }
+    icon: RefreshCw,
+    title: 'Approving an extension request',
+    summary: 'A buyer ran out of downloads before finishing their project and requests more time.',
+    steps: [
+      'Buyer submits a request-extension form (rate-limited 5/hour)',
+      'Seller sees the flagged purchase in their dashboard',
+      'Seller clicks Extend: +5 downloads, +7 days',
+      'Buyer\'s existing link keeps working with the new limits'
     ]
   }
 ]
@@ -371,7 +340,7 @@ const caseStudies = [
   color: white;
 }
 
-/* Use Case Content */
+/* Persona Content */
 .use-case-content {
   background: var(--color-bg-elevated);
   border-top: 1px solid var(--color-border);
@@ -457,7 +426,6 @@ const caseStudies = [
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  margin-bottom: var(--space-xl);
 }
 
 .diagram-header {
@@ -495,6 +463,7 @@ const caseStudies = [
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: var(--radius-full);
+  flex-shrink: 0;
 }
 
 .diagram-step span {
@@ -502,38 +471,7 @@ const caseStudies = [
   color: var(--color-text-primary);
 }
 
-/* Quote Card */
-.quote-card {
-  padding: var(--space-xl);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-}
-
-.quote-card p {
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--color-text-primary);
-  margin-bottom: var(--space-lg);
-}
-
-.quote-author {
-  display: flex;
-  flex-direction: column;
-}
-
-.author-name {
-  font-weight: 600;
-  font-size: 0.9375rem;
-  color: var(--color-text-primary);
-}
-
-.author-role {
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
-}
-
-/* Case Studies */
+/* Example Walkthroughs */
 .case-studies {
   background: var(--color-bg);
 }
@@ -558,7 +496,7 @@ const caseStudies = [
   margin-bottom: var(--space-lg);
 }
 
-.company-logo {
+.study-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -566,19 +504,22 @@ const caseStudies = [
   height: 48px;
   background: var(--color-accent-subtle);
   color: var(--color-accent);
-  font-weight: 700;
-  font-size: 1.25rem;
   border-radius: var(--radius-lg);
+  flex-shrink: 0;
 }
 
-.study-header h4 {
-  font-size: 1.125rem;
+.study-kicker {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
   margin-bottom: var(--space-xs);
 }
 
-.study-header span {
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
+.study-header h4 {
+  font-size: 1.0625rem;
 }
 
 .study-summary {
@@ -586,29 +527,20 @@ const caseStudies = [
   margin-bottom: var(--space-lg);
 }
 
-.study-metrics {
+.study-steps {
   display: flex;
-  gap: var(--space-xl);
-  margin-bottom: var(--space-lg);
+  flex-direction: column;
+  gap: var(--space-sm);
   padding: var(--space-lg);
   background: var(--color-bg);
   border-radius: var(--radius-lg);
+  list-style: decimal;
+  list-style-position: inside;
 }
 
-.metric {
-  display: flex;
-  flex-direction: column;
-}
-
-.metric-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-accent);
-}
-
-.metric-label {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
+.study-steps li {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
 }
 
 /* Transitions */
