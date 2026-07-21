@@ -1,6 +1,7 @@
 <template>
   <section class="stats section">
     <div class="container">
+      <p class="stats-intro">No usage theater — just how the platform works.</p>
       <div class="stat-strip stats-strip-grid" v-motion-fade-visible>
         <div
           v-for="(stat, index) in stats"
@@ -78,12 +79,12 @@ const AnimatedNumber = {
 }
 
 const stats = [
-  { value: 50000, suffix: '+', label: 'Active Users' },
-  { value: 180000, suffix: '+', label: 'Downloads Served' },
-  { value: 99, suffix: '.99%', label: 'Uptime SLA' },
-  { value: 140, suffix: '+', label: 'Countries' },
-  { value: 500, suffix: '+', label: 'Enterprise Clients' },
-  { value: 15, prefix: '<', suffix: 'ms', label: 'API Response' }
+  { value: 10, suffix: '%', label: 'Flat platform fee, only when you sell' },
+  { value: 90, prefix: '~', suffix: '%', label: 'Of each sale goes to you' },
+  { value: 1, suffix: '', label: 'Script tag to embed your store' },
+  { value: 5, suffix: '', label: 'Downloads per purchase, 7-day window' },
+  { value: 20, suffix: ' GB', label: 'Seller storage (3 GB free tier)' },
+  { value: 60, suffix: '/min', label: 'Public API rate limit' }
 ]
 </script>
 
@@ -91,6 +92,13 @@ const stats = [
 .stats {
   background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-elevated) 100%);
   padding: var(--space-4xl) 0;
+}
+
+.stats-intro {
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2xl);
 }
 
 .stats-container {
