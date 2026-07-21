@@ -3,8 +3,8 @@
     <div class="container">
       <div class="section-header">
         <span class="badge mb-lg">Why AuxKit</span>
-        <h2>Built for teams that ship</h2>
-        <p>Three pillars that define how we build tools—and how you'll work better.</p>
+        <h2>Built for musicians who sell direct</h2>
+        <p>Three pillars that define how AuxKit works—and how you keep more of every sale.</p>
       </div>
 
       <div class="grid grid-3">
@@ -33,37 +33,39 @@
 </template>
 
 <script setup>
-import { Blocks, Plug, Users, Check } from 'lucide-vue-next'
+import { Code, CreditCard, Home, Check } from 'lucide-vue-next'
 
 const valueProps = [
   {
-    icon: Blocks,
-    title: 'Modular Tools',
-    description: 'Build your stack your way—swap features in or out without breaking workflows.',
+    icon: Code,
+    title: 'Your storefront, anywhere',
+    description: 'The embed widget is a single dependency-free script tag — drop it into any page that accepts one.',
     features: [
-      'Pick only what you need',
-      'Zero dependency conflicts',
-      'Instant module activation'
+      'Grid or single-pack detail views',
+      'Auto-generated audio previews',
+      'Prices in the buyer\'s currency, Stripe checkout built in',
+      'Dark-mode aware, zero runtime dependencies'
     ]
   },
   {
-    icon: Plug,
-    title: 'Effortless Integration',
-    description: 'AuxKit plugs into existing systems with near-zero configuration.',
+    icon: CreditCard,
+    title: 'Direct-to-fan commerce',
+    description: 'Stripe Connect direct charges — you are the merchant of record, not AuxKit.',
     features: [
-      '50+ native integrations',
-      'REST & GraphQL APIs',
-      'Webhook support'
+      'Sales settle straight into your own Stripe account',
+      'Flat 10% platform fee, only when you sell',
+      'Refunds from your Stripe dashboard auto-revoke downloads',
+      'AuxKit\'s fee is rebated automatically on a refund'
     ]
   },
   {
-    icon: Users,
-    title: 'Team-First Design',
-    description: 'Designed for clarity, accountability, and speed across departments.',
+    icon: Home,
+    title: 'A home for your music',
+    description: 'A hosted portfolio site with song feeds and your pack catalogue, ready in minutes.',
     features: [
-      'Role-based permissions',
-      'Real-time collaboration',
-      'Activity audit logs'
+      'Free tier: portfolio + song feeds + 3 GB storage',
+      'No code required to set up',
+      'One place for your portfolio, packs, and song feeds'
     ]
   }
 ]
