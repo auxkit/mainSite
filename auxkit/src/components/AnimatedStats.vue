@@ -12,7 +12,7 @@
         >
           <div class="stat-strip__value">
             <span v-if="stat.prefix">{{ stat.prefix }}</span>
-            <AnimatedNumber :value="stat.value" :duration="2000" :delay="index * 200" />
+            <AnimatedNumber :value="stat.value" :duration="700" :delay="index * 100" />
             <span>{{ stat.suffix }}</span>
           </div>
           <p class="stat-strip__label">{{ stat.label }}</p>
@@ -23,39 +23,62 @@
 </template>
 
 <script setup>
-import { h, ref, onMounted } from 'vue'
+import { h, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 
 // Animated Number Component
 const AnimatedNumber = {
   props: {
     value: { type: Number, required: true },
-    duration: { type: Number, default: 2000 },
+    duration: { type: Number, default: 700 },
     delay: { type: Number, default: 0 }
   },
   setup(props) {
     const displayValue = ref(0)
     const hasAnimated = ref(false)
-    
+    let observer = null
+    let timeoutId = null
+
     onMounted(() => {
+      // Reduced-motion viewers get the final number immediately — the
+      // global CSS kill-switch in style.css only zeroes out CSS
+      // transition/animation durations, it has no effect on this
+      // component's own requestAnimationFrame-driven count-up, so that
+      // has to be handled explicitly here instead.
+      const prefersReducedMotion =
+        typeof window !== 'undefined' &&
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      if (prefersReducedMotion) {
+        displayValue.value = props.value
+        return
+      }
+
       // Use Intersection Observer for scroll-triggered animation
-      const observer = new IntersectionObserver((entries) => {
+      observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting && !hasAnimated.value) {
             hasAnimated.value = true
             animateValue()
           }
         })
-      }, { threshold: 0.5 })
-      
-      // Delay getting parent to ensure mount
-      setTimeout(() => {
+      }, { threshold: 0.3 })
+
+      // Wait for the DOM to actually contain the stat strip instead of a
+      // magic-number setTimeout guess.
+      nextTick(() => {
         const el = document.querySelector('.stats-strip-grid')
-        if (el) observer.observe(el)
-      }, 100)
+        if (el && observer) observer.observe(el)
+      })
     })
-    
+
+    onBeforeUnmount(() => {
+      if (observer) observer.disconnect()
+      if (timeoutId) clearTimeout(timeoutId)
+    })
+
     function animateValue() {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         const startTime = Date.now()
         const animate = () => {
           const elapsed = Date.now() - startTime
@@ -63,7 +86,7 @@ const AnimatedNumber = {
           // Ease out cubic
           const eased = 1 - Math.pow(1 - progress, 3)
           displayValue.value = Math.floor(eased * props.value)
-          
+
           if (progress < 1) {
             requestAnimationFrame(animate)
           } else {
@@ -73,7 +96,7 @@ const AnimatedNumber = {
         animate()
       }, props.delay)
     }
-    
+
     return () => h('span', displayValue.value.toLocaleString())
   }
 }
