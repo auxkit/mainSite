@@ -2,16 +2,36 @@
   <section class="live-demo section">
     <div class="container">
       <div class="section-header">
-        <span class="badge mb-lg">Interactive Demo</span>
-        <h2>See the magic happen</h2>
-        <p>Build a complete workflow in seconds. Click through to experience AuxKit.</p>
+        <span class="badge mb-lg">Widget Simulation</span>
+        <h2>See the embed widget in action</h2>
+        <p>This is what the widget renders on your site. Click through the tabs to explore it.</p>
       </div>
 
       <div class="demo-wrapper" v-motion-fade-visible>
+        <!-- Real embed snippet -->
+        <div class="embed-callout">
+          <div class="embed-callout-header">
+            <div class="window-controls">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <span class="embed-callout-title">index.html</span>
+          </div>
+          <pre class="embed-code"><code><span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="str">"auxkit-packs"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;script</span>
+  <span class="attr">src</span>=<span class="str">"https://cdn.example.com/auxkit-embed.js"</span>
+  <span class="attr">data-api-key</span>=<span class="str">"ak_YOUR_KEY"</span>
+  <span class="attr">data-target</span>=<span class="str">"#auxkit-packs"</span>
+  <span class="attr">async</span>
+<span class="tag">&gt;&lt;/script&gt;</span></code></pre>
+          <p class="embed-caption">Simulation of the widget UI — the real thing is one dependency-free JS file.</p>
+        </div>
+
         <!-- Demo Controls -->
         <div class="demo-tabs">
-          <button 
-            v-for="tab in demoTabs" 
+          <button
+            v-for="tab in demoTabs"
             :key="tab.id"
             class="demo-tab"
             :class="{ active: activeTab === tab.id }"
@@ -32,7 +52,7 @@
             </div>
             <div class="screen-title">
               <component :is="currentTab.icon" :size="16" />
-              {{ currentTab.label }} — AuxKit
+              {{ currentTab.label }} — auxkit-packs
             </div>
             <div class="screen-actions">
               <button class="action-btn">
@@ -45,171 +65,81 @@
           </div>
 
           <div class="screen-content">
-            <!-- Workflow Demo -->
-            <div v-if="activeTab === 'workflow'" class="demo-workflow">
-              <div class="workflow-sidebar">
-                <h4>Nodes</h4>
-                <div 
-                  v-for="node in workflowNodes" 
-                  :key="node.id"
-                  class="sidebar-node"
-                  draggable="true"
-                  @click="addNode(node)"
-                >
-                  <component :is="node.icon" :size="16" />
-                  {{ node.label }}
-                </div>
-              </div>
-              <div class="workflow-canvas">
-                <div class="canvas-hint" v-if="placedNodes.length === 0">
-                  <MousePointer :size="24" />
-                  <span>Click nodes from the sidebar to build your workflow</span>
-                </div>
-                <TransitionGroup name="node-list" tag="div" class="placed-nodes">
-                  <div 
-                    v-for="(node, index) in placedNodes" 
-                    :key="node.id + '-' + index"
-                    class="placed-node"
-                    :class="{ connected: index > 0 }"
-                  >
-                    <div class="node-connector" v-if="index > 0"></div>
-                    <div class="node-card">
-                      <component :is="node.icon" :size="20" />
-                      <span>{{ node.label }}</span>
-                      <button class="node-remove" @click="removeNode(index)">
-                        <X :size="12" />
-                      </button>
+            <!-- Storefront grid -->
+            <div v-if="activeTab === 'grid'" class="demo-grid">
+              <div class="pack-grid">
+                <div v-for="pack in packs" :key="pack.id" class="pack-card">
+                  <div class="pack-artwork">
+                    <span>{{ pack.name.charAt(0) }}</span>
+                    <button class="preview-btn" @click="togglePlay(pack.id)">
+                      <Pause v-if="playingId === pack.id" :size="16" />
+                      <Play v-else :size="16" />
+                    </button>
+                  </div>
+                  <div class="pack-info">
+                    <span class="pack-genre">{{ pack.genre }}</span>
+                    <h4 class="pack-name">{{ pack.name }}</h4>
+                    <div class="pack-footer">
+                      <span class="pack-price">{{ pack.price }}</span>
+                      <button class="btn btn-primary btn-sm">Buy</button>
                     </div>
                   </div>
-                </TransitionGroup>
-              </div>
-              <div class="workflow-config" v-if="placedNodes.length > 0">
-                <h4>Workflow Config</h4>
-                <div class="config-item">
-                  <label>Name</label>
-                  <input type="text" v-model="workflowName" placeholder="My Workflow" />
                 </div>
-                <div class="config-item">
-                  <label>Trigger</label>
-                  <select>
-                    <option>On form submit</option>
-                    <option>On schedule</option>
-                    <option>Manual</option>
-                  </select>
-                </div>
-                <button class="btn btn-primary btn-sm" @click="runWorkflow">
-                  <Play :size="14" />
-                  Run Workflow
-                </button>
               </div>
             </div>
 
-            <!-- Data Demo -->
-            <div v-if="activeTab === 'data'" class="demo-data">
-              <div class="data-table">
-                <div class="table-header">
-                  <div class="header-cell">Name</div>
-                  <div class="header-cell">Status</div>
-                  <div class="header-cell">Priority</div>
-                  <div class="header-cell">Assigned</div>
-                  <div class="header-cell">Due Date</div>
+            <!-- Pack detail -->
+            <div v-if="activeTab === 'detail'" class="demo-detail">
+              <div class="pack-detail">
+                <div class="detail-artwork">
+                  <span>{{ detailPack.name.charAt(0) }}</span>
                 </div>
-                <div 
-                  v-for="row in dataRows" 
-                  :key="row.id"
-                  class="table-row"
-                  :class="{ selected: selectedRow === row.id }"
-                  @click="selectedRow = row.id"
-                >
-                  <div class="cell">{{ row.name }}</div>
-                  <div class="cell">
-                    <span class="status-badge" :class="row.status.toLowerCase()">
-                      {{ row.status }}
-                    </span>
+                <div class="detail-info">
+                  <span class="pack-genre">{{ detailPack.genre }}</span>
+                  <h3>{{ detailPack.name }}</h3>
+                  <span class="detail-license">{{ detailPack.license }}</span>
+                  <p class="detail-description">{{ detailPack.description }}</p>
+                  <div class="detail-tags">
+                    <span v-for="tag in detailPack.tags" :key="tag" class="tag-chip">{{ tag }}</span>
                   </div>
-                  <div class="cell">
-                    <span class="priority-indicator" :class="row.priority.toLowerCase()"></span>
-                    {{ row.priority }}
+                  <div class="detail-buy">
+                    <span class="pack-price">{{ detailPack.price }}</span>
+                    <button class="btn btn-primary btn-sm">Buy</button>
                   </div>
-                  <div class="cell">
-                    <div class="avatar">{{ row.assigned.charAt(0) }}</div>
-                    {{ row.assigned }}
-                  </div>
-                  <div class="cell">{{ row.dueDate }}</div>
                 </div>
               </div>
-              <div class="data-actions">
-                <button class="btn btn-secondary btn-sm">
-                  <Plus :size="14" />
-                  Add Row
-                </button>
-                <button class="btn btn-ghost btn-sm">
-                  <Filter :size="14" />
-                  Filter
-                </button>
-                <button class="btn btn-ghost btn-sm">
-                  <Download :size="14" />
-                  Export
-                </button>
+              <div class="sample-list">
+                <div
+                  v-for="sample in samples"
+                  :key="sample.id"
+                  class="sample-row"
+                >
+                  <button class="sample-play" @click="toggleSamplePlay(sample.id)">
+                    <Pause v-if="playingSampleId === sample.id" :size="14" />
+                    <Play v-else :size="14" />
+                  </button>
+                  <span class="sample-name">{{ sample.name }}</span>
+                  <span class="sample-meta">{{ sample.bpm }} BPM · {{ sample.key }} · {{ sample.duration }}</span>
+                </div>
               </div>
             </div>
 
-            <!-- Automations Demo -->
-            <div v-if="activeTab === 'automations'" class="demo-automations">
-              <div class="automation-builder">
-                <div class="trigger-section">
-                  <div class="section-label">When this happens...</div>
-                  <div class="trigger-card" :class="{ active: selectedTrigger }" @click="selectedTrigger = !selectedTrigger">
-                    <Zap :size="20" />
-                    <div class="trigger-info">
-                      <span class="trigger-title">New form submission</span>
-                      <span class="trigger-desc">Triggers when a user submits a form</span>
-                    </div>
-                    <ChevronRight :size="16" />
-                  </div>
-                </div>
-
-                <div class="connector-line" v-if="selectedTrigger">
-                  <div class="line"></div>
-                  <div class="plus-btn">
-                    <Plus :size="16" />
-                  </div>
-                </div>
-
-                <div class="actions-section" v-if="selectedTrigger">
-                  <div class="section-label">Do this...</div>
-                  <div 
-                    v-for="action in automationActions" 
-                    :key="action.id"
-                    class="action-card"
-                    :class="{ active: selectedActions.includes(action.id) }"
-                    @click="toggleAction(action.id)"
-                  >
-                    <component :is="action.icon" :size="20" />
-                    <div class="action-info">
-                      <span class="action-title">{{ action.title }}</span>
-                      <span class="action-desc">{{ action.desc }}</span>
-                    </div>
-                    <div class="action-check">
-                      <Check :size="16" v-if="selectedActions.includes(action.id)" />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="automation-preview" v-if="selectedActions.length > 0">
-                  <div class="preview-label">Preview</div>
-                  <div class="preview-flow">
-                    <span class="flow-item">Form Submit</span>
-                    <ArrowRight :size="14" />
-                    <span 
-                      v-for="id in selectedActions" 
-                      :key="id"
-                      class="flow-item"
-                    >
-                      {{ automationActions.find(a => a.id === id)?.title }}
-                    </span>
-                  </div>
-                </div>
+            <!-- What happens on Buy -->
+            <div v-if="activeTab === 'buy'" class="demo-buy">
+              <div class="buy-stepper">
+                <button
+                  v-for="(step, index) in buySteps"
+                  :key="index"
+                  class="buy-step"
+                  :class="{ active: activeStep === index }"
+                  @click="activeStep = index"
+                >
+                  <span class="step-number">{{ index + 1 }}</span>
+                  <span class="step-title">{{ step.title }}</span>
+                </button>
+              </div>
+              <div class="buy-explanation">
+                <p>{{ buySteps[activeStep].detail }}</p>
               </div>
             </div>
           </div>
@@ -218,24 +148,24 @@
           <div class="screen-footer">
             <div class="status-left">
               <span class="status-dot online"></span>
-              Live Preview
+              Simulated
             </div>
             <div class="status-center">
-              <span v-if="activeTab === 'workflow'">{{ placedNodes.length }} nodes</span>
-              <span v-if="activeTab === 'data'">{{ dataRows.length }} records</span>
-              <span v-if="activeTab === 'automations'">{{ selectedActions.length }} actions</span>
+              <span v-if="activeTab === 'grid'">{{ packs.length }} packs</span>
+              <span v-if="activeTab === 'detail'">{{ samples.length }} samples</span>
+              <span v-if="activeTab === 'buy'">Step {{ activeStep + 1 }} of {{ buySteps.length }}</span>
             </div>
             <div class="status-right">
-              <kbd>⌘</kbd> + <kbd>S</kbd> to save
+              No real checkout occurs
             </div>
           </div>
         </div>
 
         <!-- Demo CTA -->
         <div class="demo-cta">
-          <p>This is just a preview. The real thing is even better.</p>
-          <router-link to="/pricing" class="btn btn-primary">
-            Try the Full Experience
+          <p>This is a simulation of the widget UI — the real thing is a single script tag, no build step, no SDK.</p>
+          <router-link to="/docs" class="btn btn-primary">
+            Read the embed docs
             <ArrowRight :size="18" />
           </router-link>
         </div>
@@ -246,72 +176,71 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { 
-  Workflow, Database, Zap, Share2, Maximize2, MousePointer, X, Play,
-  Plus, Filter, Download, ChevronRight, Check, ArrowRight,
-  Mail, Bell, FileText, Users, Clock, GitBranch
+import {
+  LayoutGrid, Disc3, CreditCard, Share2, Maximize2, Play, Pause, ArrowRight
 } from 'lucide-vue-next'
 
-const activeTab = ref('workflow')
-const workflowName = ref('')
-const selectedRow = ref(null)
-const selectedTrigger = ref(false)
-const selectedActions = ref([])
+const activeTab = ref('grid')
+const playingId = ref(null)
+const playingSampleId = ref(null)
+const activeStep = ref(0)
 
 const demoTabs = [
-  { id: 'workflow', label: 'Workflow Builder', icon: Workflow },
-  { id: 'data', label: 'Data Layer', icon: Database },
-  { id: 'automations', label: 'Automations', icon: Zap }
+  { id: 'grid', label: 'Storefront grid', icon: LayoutGrid },
+  { id: 'detail', label: 'Pack detail', icon: Disc3 },
+  { id: 'buy', label: 'What happens on Buy', icon: CreditCard }
 ]
 
 const currentTab = computed(() => demoTabs.find(t => t.id === activeTab.value))
 
-const workflowNodes = [
-  { id: 'trigger', label: 'Trigger', icon: Zap },
-  { id: 'email', label: 'Send Email', icon: Mail },
-  { id: 'notify', label: 'Notification', icon: Bell },
-  { id: 'create', label: 'Create Record', icon: FileText },
-  { id: 'assign', label: 'Assign Task', icon: Users },
-  { id: 'delay', label: 'Delay', icon: Clock },
-  { id: 'branch', label: 'Condition', icon: GitBranch }
+const packs = [
+  { id: 1, name: 'Demo Drums Vol. 1', genre: 'Drums', price: '€14.99' },
+  { id: 2, name: 'Demo Textures', genre: 'Ambient', price: '€9.99' },
+  { id: 3, name: 'Demo Vocal Chops', genre: 'Vocals', price: '€12.99' }
 ]
 
-const placedNodes = ref([])
-
-const addNode = (node) => {
-  placedNodes.value.push({ ...node })
+const detailPack = {
+  name: 'Demo Drums Vol. 1',
+  genre: 'Drums',
+  license: 'Royalty-free license',
+  description: '128 punchy one-shots and loops for boom-bap and lo-fi beats — mixed and mastered, ready to drop into your DAW.',
+  tags: ['Drums', 'Lo-fi', 'One-shots', 'Loops'],
+  price: '€14.99'
 }
 
-const removeNode = (index) => {
-  placedNodes.value.splice(index, 1)
-}
-
-const runWorkflow = () => {
-  // Simulate workflow run
-  alert('Workflow executed! (In the real app, this would run your workflow)')
-}
-
-const dataRows = [
-  { id: 1, name: 'Website Redesign', status: 'Active', priority: 'High', assigned: 'Sarah', dueDate: 'Dec 15' },
-  { id: 2, name: 'API Integration', status: 'Pending', priority: 'Medium', assigned: 'Alex', dueDate: 'Dec 18' },
-  { id: 3, name: 'User Research', status: 'Complete', priority: 'Low', assigned: 'Jordan', dueDate: 'Dec 10' },
-  { id: 4, name: 'Performance Audit', status: 'Active', priority: 'High', assigned: 'Taylor', dueDate: 'Dec 20' }
+const samples = [
+  { id: 1, name: 'Kick 01', bpm: 124, key: 'C min', duration: '0:02' },
+  { id: 2, name: 'Snare 02', bpm: 124, key: 'C min', duration: '0:01' },
+  { id: 3, name: 'Hi-Hat Loop', bpm: 124, key: '—', duration: '0:04' },
+  { id: 4, name: 'Bass One-Shot', bpm: 124, key: 'C min', duration: '0:03' },
+  { id: 5, name: 'Full Loop', bpm: 124, key: 'C min', duration: '0:08' }
 ]
 
-const automationActions = [
-  { id: 'email', title: 'Send Email', desc: 'Send a notification email', icon: Mail },
-  { id: 'notify', title: 'Push Notification', desc: 'Send to Slack or Teams', icon: Bell },
-  { id: 'record', title: 'Create Record', desc: 'Add to your data layer', icon: FileText },
-  { id: 'assign', title: 'Assign Task', desc: 'Create and assign a task', icon: Users }
-]
-
-const toggleAction = (id) => {
-  const index = selectedActions.value.indexOf(id)
-  if (index > -1) {
-    selectedActions.value.splice(index, 1)
-  } else {
-    selectedActions.value.push(id)
+const buySteps = [
+  {
+    title: 'Widget POSTs to /public/packs/{id}/checkout',
+    detail: "Clicking Buy calls the pack's checkout endpoint, with your API key attached as an Authorization header."
+  },
+  {
+    title: "Buyer pays on Stripe Checkout",
+    detail: "You're the merchant of record — the buyer completes payment on Stripe's hosted checkout page, under your own Stripe account."
+  },
+  {
+    title: 'Webhook records the purchase',
+    detail: "Stripe notifies AuxKit's webhook, which creates the purchase record and kicks off delivery."
+  },
+  {
+    title: 'Buyer gets an email with a secure link',
+    detail: '5 downloads, valid for 7 days. The buyer can request a resend or an extension anytime, no support ticket needed.'
   }
+]
+
+function togglePlay(id) {
+  playingId.value = playingId.value === id ? null : id
+}
+
+function toggleSamplePlay(id) {
+  playingSampleId.value = playingSampleId.value === id ? null : id
 }
 </script>
 
@@ -323,6 +252,49 @@ const toggleAction = (id) => {
 .demo-wrapper {
   max-width: 1000px;
   margin: 0 auto;
+}
+
+/* Embed callout */
+.embed-callout {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: var(--space-xl);
+}
+
+.embed-callout-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.embed-callout-title {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.embed-code {
+  margin: 0;
+  padding: var(--space-lg);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  color: var(--color-text-secondary);
+}
+
+.embed-code .tag { color: var(--color-accent-hover); }
+.embed-code .attr { color: #f59e0b; }
+.embed-code .str { color: #22c55e; }
+
+.embed-caption {
+  padding: 0 var(--space-lg) var(--space-lg);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
 }
 
 /* Tabs */
@@ -427,289 +399,219 @@ const toggleAction = (id) => {
   min-height: 400px;
 }
 
-/* Workflow Demo */
-.demo-workflow {
+/* Storefront grid */
+.demo-grid {
+  padding: var(--space-xl);
+}
+
+.pack-grid {
   display: grid;
-  grid-template-columns: 180px 1fr 200px;
-  height: 400px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
 }
 
-.workflow-sidebar {
-  padding: var(--space-lg);
-  border-right: 1px solid var(--color-border);
-  overflow-y: auto;
+.pack-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
 }
 
-.workflow-sidebar h4 {
-  font-size: 0.75rem;
+.pack-card:hover {
+  border-color: var(--color-accent);
+}
+
+.pack-artwork {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.preview-btn {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-sm);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.preview-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.pack-info {
+  padding: var(--space-md);
+}
+
+.pack-genre {
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.pack-name {
+  font-size: 0.9375rem;
+  margin: var(--space-xs) 0 var(--space-sm);
+}
+
+.pack-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pack-price {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Pack detail */
+.demo-detail {
+  padding: var(--space-xl);
+}
+
+.pack-detail {
+  display: flex;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.detail-artwork {
+  flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  font-size: 3.5rem;
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+}
+
+.detail-info h3 {
+  font-size: 1.375rem;
+  margin: var(--space-xs) 0 var(--space-sm);
+}
+
+.detail-license {
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.detail-description {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
   margin-bottom: var(--space-md);
 }
 
-.sidebar-node {
+.detail-tags {
   display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  margin-bottom: var(--space-sm);
-  transition: all var(--transition-fast);
-}
-
-.sidebar-node:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  transform: translateX(4px);
-}
-
-.workflow-canvas {
-  padding: var(--space-xl);
-  background: var(--color-bg);
-  overflow-y: auto;
-}
-
-.canvas-hint {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  gap: var(--space-md);
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-}
-
-.placed-nodes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.placed-node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.node-connector {
-  width: 2px;
-  height: 20px;
-  background: var(--color-accent);
-  margin-bottom: var(--space-sm);
-}
-
-.node-card {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-md) var(--space-lg);
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-accent);
-  border-radius: var(--radius-md);
-  color: var(--color-accent);
-  position: relative;
-}
-
-.node-remove {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-error);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity var(--transition-fast);
-}
-
-.node-card:hover .node-remove {
-  opacity: 1;
-}
-
-.workflow-config {
-  padding: var(--space-lg);
-  border-left: 1px solid var(--color-border);
-}
-
-.workflow-config h4 {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
   margin-bottom: var(--space-lg);
 }
 
-.config-item {
-  margin-bottom: var(--space-md);
-}
-
-.config-item label {
-  display: block;
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-xs);
-}
-
-.config-item input,
-.config-item select {
-  width: 100%;
-  padding: var(--space-sm);
-  background: var(--color-bg);
+.tag-chip {
+  padding: 2px var(--space-sm);
+  background: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  color: var(--color-text-primary);
-  outline: none;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
 }
 
-.config-item input:focus,
-.config-item select:focus {
-  border-color: var(--color-accent);
+.detail-buy {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
 }
 
-/* Data Demo */
-.demo-data {
-  padding: var(--space-lg);
-}
-
-.data-table {
+.sample-list {
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
-.table-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
-  padding: var(--space-md) var(--space-lg);
-  background: var(--color-bg-elevated);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.header-cell {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.table-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+.sample-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
   padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--color-border-subtle);
-  cursor: pointer;
-  transition: background var(--transition-fast);
 }
 
-.table-row:hover {
-  background: var(--color-bg-hover);
-}
-
-.table-row.selected {
-  background: var(--color-accent-subtle);
-}
-
-.table-row:last-child {
+.sample-row:last-child {
   border-bottom: none;
 }
 
-.cell {
+.sample-play {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  justify-content: center;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.sample-play:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.sample-name {
+  flex: 1;
   font-size: 0.875rem;
   color: var(--color-text-primary);
 }
 
-.status-badge {
-  padding: 2px var(--space-sm);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 500;
+.sample-meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
 }
 
-.status-badge.active {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-}
-
-.status-badge.pending {
-  background: rgba(245, 158, 11, 0.1);
-  color: #f59e0b;
-}
-
-.status-badge.complete {
-  background: rgba(99, 102, 241, 0.1);
-  color: var(--color-accent);
-}
-
-.priority-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.priority-indicator.high { background: #ef4444; }
-.priority-indicator.medium { background: #f59e0b; }
-.priority-indicator.low { background: #22c55e; }
-
-.avatar {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-accent-subtle);
-  color: var(--color-accent);
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: 50%;
-}
-
-.data-actions {
-  display: flex;
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
-}
-
-/* Automations Demo */
-.demo-automations {
+/* What happens on Buy */
+.demo-buy {
   padding: var(--space-xl);
 }
 
-.automation-builder {
-  max-width: 500px;
-  margin: 0 auto;
+.buy-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 560px;
+  margin: 0 auto var(--space-xl);
 }
 
-.section-label {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-md);
-}
-
-.trigger-card,
-.action-card {
+.buy-step {
   display: flex;
   align-items: center;
   gap: var(--space-md);
@@ -717,125 +619,55 @@ const toggleAction = (id) => {
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  text-align: left;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.trigger-card:hover,
-.action-card:hover {
+.buy-step:hover {
   border-color: var(--color-accent);
 }
 
-.trigger-card.active,
-.action-card.active {
+.buy-step.active {
   background: var(--color-accent-subtle);
   border-color: var(--color-accent);
-}
-
-.trigger-card > svg:first-child,
-.action-card > svg:first-child {
-  color: var(--color-accent);
-}
-
-.trigger-info,
-.action-info {
-  flex: 1;
-}
-
-.trigger-title,
-.action-title {
-  display: block;
-  font-weight: 500;
   color: var(--color-text-primary);
-  font-size: 0.9375rem;
 }
 
-.trigger-desc,
-.action-desc {
+.step-number {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-elevated);
+  border-radius: 50%;
   font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--color-text-muted);
 }
 
-.connector-line {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--space-md) 0;
-}
-
-.line {
-  width: 2px;
-  height: 30px;
-  background: var(--color-accent);
-}
-
-.plus-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
+.buy-step.active .step-number {
   background: var(--color-accent);
   color: white;
-  border-radius: 50%;
-  margin: var(--space-sm) 0;
 }
 
-.actions-section {
-  margin-top: var(--space-lg);
+.step-title {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
 }
 
-.action-card {
-  margin-bottom: var(--space-sm);
-}
-
-.action-check {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-success);
-  color: white;
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity var(--transition-fast);
-}
-
-.action-card.active .action-check {
-  opacity: 1;
-}
-
-.automation-preview {
-  margin-top: var(--space-xl);
+.buy-explanation {
+  max-width: 560px;
+  margin: 0 auto;
   padding: var(--space-lg);
   background: var(--color-bg-elevated);
   border-radius: var(--radius-lg);
-}
-
-.preview-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: var(--space-md);
-}
-
-.preview-flow {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-}
-
-.flow-item {
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-accent-subtle);
-  color: var(--color-accent);
-  border-radius: var(--radius-md);
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  text-align: center;
 }
 
 /* Footer */
@@ -872,20 +704,6 @@ const toggleAction = (id) => {
   50% { opacity: 0.5; }
 }
 
-.status-right {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.status-right kbd {
-  padding: 2px var(--space-sm);
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-size: 0.6875rem;
-}
-
 /* CTA */
 .demo-cta {
   display: flex;
@@ -903,48 +721,33 @@ const toggleAction = (id) => {
   font-size: 1rem;
 }
 
-/* Transitions */
-.node-list-enter-active,
-.node-list-leave-active {
-  transition: all 0.3s ease;
-}
-
-.node-list-enter-from,
-.node-list-leave-to {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
 @media (max-width: 1024px) {
-  .demo-workflow {
-    grid-template-columns: 1fr;
-    height: auto;
+  .pack-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .workflow-sidebar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
+  .pack-detail {
+    flex-direction: column;
   }
 
-  .workflow-sidebar h4 {
-    width: 100%;
-  }
-
-  .sidebar-node {
-    margin-bottom: 0;
-  }
-
-  .workflow-config {
-    border-left: none;
-    border-top: 1px solid var(--color-border);
+  .detail-artwork {
+    width: 120px;
+    height: 120px;
   }
 
   .demo-cta {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .pack-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sample-meta {
+    font-size: 0.75rem;
   }
 }
 </style>
